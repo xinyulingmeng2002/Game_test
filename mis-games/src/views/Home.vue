@@ -1,75 +1,99 @@
 <template>
   <div class="home">
-    <Sidebar @categoryChange="fetchGamesByCategory" />
-    <main class="games-container">
+    <Sidebar @categoryChange="handleCategoryChange" />
+    <main>
       <div class="game-grid">
-        <GameCard v-for="game in games" :key="game.id" :game="game" />
+        <GameCard 
+          v-for="game in games" 
+          :key="game.id" 
+          :game="game" 
+        />
       </div>
-      <button @click="loadMoreGames" class="load-more">加载更多</button>
+      <button 
+        @click="loadMore" 
+        :disabled="isLoading"
+        class="load-more"
+      >
+        {{ isLoading ? 'Loading...' : 'Load More' }}
+      </button>
+      <footer class="brand-footer">
+        www.misgames.site is brand of misgames.site
+      </footer>
     </main>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { getGames } from '../api/games';
 import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
 
 const games = ref([]);
-const page = ref(1);
+const currentPage = ref(1);
 const isLoading = ref(false);
+const hasMore = ref(true);
 
-// 加载更多游戏
-const loadMoreGames = async (category = '') => {
+const loadMore = async () => {
+  if (isLoading.value || !hasMore.value) return;
   isLoading.value = true;
+  
   try {
-    const { data } = await axios.get(
-      `http://localhost:5000/api/games?page=${page.value}&limit=12&category=${category}`
-    );
-    games.value.push(...data);
-    page.value++;
+    const response = await getGames({
+      page: currentPage.value,
+      limit: 12
+    });
+    
+    if (response.data.length === 0) {
+      hasMore.value = false;
+    } else {
+      games.value = [...games.value, ...response.data];
+      currentPage.value++;
+    }
   } catch (error) {
-    console.error("加载失败:", error);
+    console.error('Error loading games:', error);
   } finally {
     isLoading.value = false;
   }
 };
 
-// 切换分类
-const fetchGamesByCategory = async (category) => {
-  page.value = 1;
+const handleCategoryChange = (category) => {
+  // 重置数据并加载新分类
   games.value = [];
-  await loadMoreGames(category);
+  currentPage.value = 1;
+  loadMore();
 };
 
-onMounted(() => {
-  loadMoreGames();
-});
+onMounted(loadMore);
 </script>
 
 <style scoped>
 .home {
   display: flex;
-}
-.games-container {
-  flex-grow: 1;
-  padding: 20px;
+  min-height: 100vh;
 }
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
 }
 .load-more {
-  margin-top: 20px;
-  padding: 10px 20px;
+  margin: 20px auto;
+  padding: 10px 30px;
   background: #007bff;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 .load-more:disabled {
-  background: #cccccc;
+  background: #555;
+  cursor: not-allowed;
+}
+.brand-footer {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
 }
 </style>

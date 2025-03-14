@@ -1,0 +1,15 @@
+{
+    "games": [{
+            "id": 1,
+            "title": "Magic Puzzle",
+            "cover": "https://picsum.photos/200/150?random=3",
+            "category": "Puzzle"
+        },
+        {
+            "id": 2,
+            "title": "Kids Coloring",
+            "cover": "https://picsum.photos/200/150?random=4",
+            "category": "Kids"
+        }
+    ]
+}

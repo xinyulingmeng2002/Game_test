@@ -1,7 +1,7 @@
 <template>
   <router-link :to="'/game/' + game.id" class="game-card">
-    <img :src="game.image" class="game-image" />
-    <p class="title">{{ game.title }}</p>
+    <img :src="game.cover" class="cover" />
+    <h3 class="title">{{ game.title }}</h3>
   </router-link>
 </template>
 
@@ -13,19 +13,21 @@ defineProps({
 
 <style scoped>
 .game-card {
-  display: block;
-  width: 150px;
-  text-align: center;
-  margin: 10px;
+  width: 200px;
+  background: #333;
+  border-radius: 8px;
+  overflow: hidden;
   text-decoration: none;
-  color: white;
 }
-.game-image {
+.cover {
   width: 100%;
-  border-radius: 10px;
+  height: 150px;
+  object-fit: cover;
 }
 .title {
+  color: white;
   font-size: 14px;
-  margin-top: 5px;
+  padding: 12px;
+  margin: 0;
 }
 </style>
