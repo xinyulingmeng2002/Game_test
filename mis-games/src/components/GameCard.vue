@@ -1,6 +1,6 @@
 <template>
   <router-link :to="'/game/' + game.id" class="game-card">
-    <img :src="game.image" :alt="game.title" class="game-image" />
+    <img :src="game.image" class="game-image" />
     <p class="title">{{ game.title }}</p>
   </router-link>
 </template>
@@ -17,16 +17,15 @@ defineProps({
   width: 150px;
   text-align: center;
   margin: 10px;
-  cursor: pointer;
   text-decoration: none;
   color: white;
 }
-img {
+.game-image {
   width: 100%;
   border-radius: 10px;
 }
-p {
+.title {
   font-size: 14px;
-  font-weight: bold;
+  margin-top: 5px;
 }
 </style>

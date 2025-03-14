@@ -18,21 +18,29 @@ import Sidebar from '../components/Sidebar.vue';
 
 const games = ref([]);
 const page = ref(1);
+const isLoading = ref(false);
 
+// 加载更多游戏
+const loadMoreGames = async (category = '') => {
+  isLoading.value = true;
+  try {
+    const { data } = await axios.get(
+      `http://localhost:5000/api/games?page=${page.value}&limit=12&category=${category}`
+    );
+    games.value.push(...data);
+    page.value++;
+  } catch (error) {
+    console.error("加载失败:", error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// 切换分类
 const fetchGamesByCategory = async (category) => {
   page.value = 1;
   games.value = [];
   await loadMoreGames(category);
-};
-
-const loadMoreGames = async (category = '') => {
-  try {
-    const { data } = await axios.get(`http://localhost:5000/api/games?page=${page.value}&category=${category}`);
-    games.value.push(...data);
-    page.value++;
-  } catch (error) {
-    console.error("获取游戏数据失败:", error);
-  }
 };
 
 onMounted(() => {
@@ -41,24 +49,27 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.games-container {
+.home {
   display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-
+.games-container {
+  flex-grow: 1;
+  padding: 20px;
+}
 .game-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 15px;
 }
-
 .load-more {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background: #007bff;
   color: white;
   border: none;
   cursor: pointer;
+}
+.load-more:disabled {
+  background: #cccccc;
 }
 </style>
