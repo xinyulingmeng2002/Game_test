@@ -1,14 +1,31 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:3000'; // 指向本地 JSON Server
+const API_BASE =
+    import.meta.env.DEV ?
+    'http://localhost:3000' :
+    'https://api.misgames.site';
 
-export const getGames = async(params) => {
-    const { page = 1, limit = 12, category, search } = params;
-    return axios.get(`${API_BASE}/games`, {
-        params: { page, limit, category, search }
-    });
+let cache = new Map();
+
+export const getGames = async(params = {}) => {
+    const cacheKey = JSON.stringify(params);
+    if (cache.has(cacheKey)) return cache.get(cacheKey);
+
+    try {
+        const res = await axios.get(`${API_BASE}/games`, { params });
+        cache.set(cacheKey, res);
+        return res;
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
 };
 
 export const getGameDetails = async(id) => {
-    return axios.get(`${API_BASE}/games/${id}`);
+    try {
+        return await axios.get(`${API_BASE}/games/${id}`);
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
 };

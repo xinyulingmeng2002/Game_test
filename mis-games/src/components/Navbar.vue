@@ -2,17 +2,29 @@
   <nav class="navbar">
     <router-link to="/" class="logo">mis</router-link>
     <div class="nav-menu">
-      <router-link to="/disclaimer">Disclaimer</router-link>
-      <router-link to="/privacy-policy">Privacy Policy</router-link>
-      <router-link to="/sitemap">Sitemap</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link 
+        v-for="item in menuItems" 
+        :key="item.path" 
+        :to="item.path"
+      >
+        {{ item.name }}
+      </router-link>
     </div>
+    <!-- <slot></slot> 搜索框插槽 -->
     <SearchBox @search="handleSearch" />
   </nav>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import SearchBox from './SearchBox.vue';
+
+const menuItems = ref([
+  { name: 'Disclaimer', path: '/disclaimer' },
+  { name: 'Privacy Policy', path: '/privacy-policy' },
+  { name: 'Sitemap', path: '/sitemap' },
+  { name: 'About', path: '/about' }
+]);
 
 const handleSearch = (keyword) => {
   // 触发父组件搜索逻辑
@@ -22,10 +34,10 @@ const handleSearch = (keyword) => {
 
 <style scoped>
 .navbar {
+  background: #1a1a1a;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
-  padding: 1rem 2rem;
-  background: #1a1a1a;
   gap: 2rem;
 }
 .logo {

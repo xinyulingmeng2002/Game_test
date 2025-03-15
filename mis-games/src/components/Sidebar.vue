@@ -1,33 +1,56 @@
 <template>
-    <div class="sidebar">
-      <div 
-        v-for="category in categories" 
-        :key="category.name"
-        class="category-item"
-        @click="$emit('categoryChange', category.name)"
-      >
-        <img :src="category.icon" class="icon" />
-        <span>{{ category.name }}</span>
-      </div>
+  <div class="sidebar">
+    <div 
+      v-for="category in categories" 
+      :key="category.name"
+      class="category-item"
+      :class="{ active: selectedCategory === category.name }"
+      @click="selectCategory(category.name)"
+    >
+      <img :src="category.icon" class="icon" />
+      <span>{{ category.name }}</span>
     </div>
-  </template>
-  
-  <script setup>
-  const categories = [
-    { name: 'Puzzle', icon: '/src/assets/icons/puzzle.svg' },
-    { name: 'Kids', icon: '/src/assets/icons/kids.svg' },
-    { name: 'Featured', icon: '/src/assets/icons/featured.svg' },
-    { name: 'Casual', icon: '/src/assets/icons/casual.svg' },
-    { name: 'Hot', icon: '/src/assets/icons/hot.svg' },
-    { name: 'Adventure', icon: '/src/assets/icons/adventure.svg' }
-  ];
-  </script>
-  
-  <style scoped>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const categories = ref([
+  { name: 'Puzzle', icon: new URL('../assets/icons/puzzle.svg', import.meta.url).href },
+  { name: 'Kids', icon: new URL('../assets/icons/kids.svg', import.meta.url).href },
+  { name: 'Featured', icon: new URL('../assets/icons/featured.svg', import.meta.url).href },
+  { name: 'Casual', icon: new URL('../assets/icons/casual.svg', import.meta.url).href },
+  { name: 'Hot', icon: new URL('../assets/icons/hot.svg', import.meta.url).href },
+  { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href }
+]);
+
+const selectedCategory = ref('');
+const emit = defineEmits(['categoryChange']);
+
+const selectCategory = (category) => {
+  selectedCategory.value = category;
+  emit('categoryChange', category);
+};
+</script>
+
+
+<style scoped>
+.sidebar {
+  /* background: #2a2a2a; */
+  background: #858585;
+  transition: all 0.3s ease;
+}
+
+/* 桌面端样式 */
+@media (min-width: 1024px) {
   .sidebar {
-    width: 200px;
-    padding: 1rem;
-    background: #2a2a2a;
+  width: 140px;
+  height: 70%;
+  position: fixed;
+  padding: 1rem;
+  margin-left: 8px;
+  background: #535252;
   }
   .category-item {
     display: flex;
@@ -35,13 +58,81 @@
     padding: 12px;
     cursor: pointer;
     color: #ccc;
+    border-radius: 6px;
+    margin-bottom: 27px;
   }
   .category-item:hover {
     background: #3a3a3a;
+  }
+  .category-item.active {
+    background: #007bff;
+    color: white;
   }
   .icon {
     width: 24px;
     height: 24px;
     margin-right: 12px;
   }
-  </style>
+}
+
+/* 平板适配 */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .sidebar {
+  width: 130px;
+  padding: 1rem;
+  margin-left: 7px;
+  background: #4a4949;
+  }
+  .category-item {
+    display: flex;
+    align-items: center;
+    padding: 11px;
+    cursor: pointer;
+    color: #ccc;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .category-item:hover {
+    background: #3a3a3a;
+  }
+  .category-item.active {
+    background: #007bff;
+    color: white;
+  }
+  .icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 11px;
+  }
+}
+
+/* 移动端适配 */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+  .category-item {
+    flex: 1 0 45%;
+    max-width: 100px;
+    flex-direction: column;
+    text-align: left;
+    padding: 8px;
+  }
+  .icon {
+    /* margin: 0 auto 4px; */
+    
+    width: 11px;
+    height: 11px;
+    margin-right: 11px;
+  
+  }
+}
+</style>

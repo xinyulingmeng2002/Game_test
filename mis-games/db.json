@@ -10,6 +10,138 @@
             "title": "Kids Coloring",
             "cover": "https://picsum.photos/200/150?random=4",
             "category": "Kids"
+        },
+        {
+            "id": 3,
+            "title": "Candy Crush",
+            "cover": "https://picsum.photos/200/150?random=5",
+            "category": "Featured"
+        },
+        {
+            "id": 4,
+            "title": "Tetris",
+            "cover": "https://picsum.photos/200/150?random=6",
+            "category": "Casual"
+        },
+        {
+            "id": 5,
+            "title": "Super Mario",
+            "cover": "https://picsum.photos/200/150?random=7",
+            "category": "Hot"
+        },
+        {
+            "id": 6,
+            "title": "Pacman",
+            "cover": "https://picsum.photos/200/150?random=8",
+            "category": "Adventure"
+        },
+        {
+            "id": 7,
+            "title": "Sudoku",
+            "cover": "https://picsum.photos/200/150?random=9",
+            "category": "Puzzle"
+        },
+        {
+            "id": 8,
+            "title": "Chess",
+            "cover": "https://picsum.photos/200/150?random=10",
+            "category": "Kids"
+        },
+        {
+            "id": 9,
+            "title": "Ludo",
+            "cover": "https://picsum.photos/200/150?random=11",
+            "category": "Featured"
+        },
+        {
+            "id": 10,
+            "title": "Car Racing",
+            "cover": "https://picsum.photos/200/150?random=12",
+            "category": "Casual"
+        },
+        {
+            "id": 11,
+            "title": "Bike Racing",
+            "cover": "https://picsum.photos/200/150?random=13",
+            "category": "Hot"
+        },
+        {
+            "id": 12,
+            "title": "Fruit Ninja",
+            "cover": "https://picsum.photos/200/150?random=14",
+            "category": "Adventure"
+        },
+        {
+            "id": 13,
+            "title": "Angry Birds",
+            "cover": "https://picsum.photos/200/150?random=15",
+            "category": "Puzzle"
+        },
+        {
+            "id": 14,
+            "title": "Candy Crush",
+            "cover": "https://picsum.photos/200/150?random=16",
+            "category": "Kids"
+        },
+        {
+            "id": 15,
+            "title": "Tetris",
+            "cover": "https://picsum.photos/200/150?random=17",
+            "category": "Featured"
+        },
+        {
+            "id": 16,
+            "title": "Super Mario",
+            "cover": "https://picsum.photos/200/150?random=18",
+            "category": "Casual"
+        },
+        {
+            "id": 17,
+            "title": "Pacman",
+            "cover": "https://picsum.photos/200/150?random=19",
+            "category": "Hot"
+        },
+        {
+            "id": 18,
+            "title": "Sudoku",
+            "cover": "https://picsum.photos/200/150?random=20",
+            "category": "Adventure"
+        },
+        {
+            "id": 19,
+            "title": "Chess",
+            "cover": "https://picsum.photos/200/150?random=21",
+            "category": "Puzzle"
+        },
+        {
+            "id": 20,
+            "title": "Ludo",
+            "cover": "https://picsum.photos/200/150?random=22",
+            "category": "Kids"
+        },
+        {
+            "id": 21,
+            "title": "Car Racing",
+            "cover": "https://picsum.photos/200/150?random=23",
+            "category": "Featured"
+        },
+        {
+            "id": 22,
+            "title": "Bike Racing",
+            "cover": "https://picsum.photos/200/150?random=24",
+            "category": "Casual"
+        },
+        {
+            "id": 23,
+            "title": "Fruit Ninja",
+            "cover": "https://picsum.photos/200/150?random=25",
+            "category": "Hot"
+        },
+        {
+            "id": 24,
+            "title": "Angry Birds",
+            "cover": "https://picsum.photos/200/150?random=26",
+            "category": "Adventure"
         }
     ]
 }
