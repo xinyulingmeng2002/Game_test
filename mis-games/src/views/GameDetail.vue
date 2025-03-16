@@ -1,114 +1,190 @@
 <template>
-    <div class="game-detail">
+  <!-- 游戏详情页面的主容器 -->
+  <div class="game-detail">
+      <!-- v-if 指令，当 loading 为 true 时显示加载动画 -->
       <div v-if="loading" class="loading-spinner"></div>
+      <!-- v-else-if 指令，当 loading 为 false 且 game 有值时显示游戏详情内容 -->
       <div v-else-if="game" class="content">
-        <h1 class="title">{{ game.title }}</h1>
-        <div class="media-container">
-          <img :src="game.cover" class="cover" />
-          <iframe 
-            v-if="game.embedUrl"
-            :src="game.embedUrl"
-            class="game-iframe"
-          ></iframe>
-        </div>
-        <div class="meta">
-          <div class="rating">⭐ {{ game.rating }}</div>
-          <div class="players">👥 {{ game.players }} Players</div>
-        </div>
-        <p class="description">{{ game.description }}</p>
-        <a :href="game.url" class="play-button">Play Now</a>
+          <!-- 显示游戏标题 -->
+          <h1 class="title">{{ game.title }}</h1>
+          <!-- 媒体容器，用于包含游戏封面图片和嵌入的游戏 iframe -->
+          <div class="media-container">
+              <!-- 显示游戏封面图片，使用 :src 绑定图片地址 -->
+              <img :src="game.cover" class="cover" />
+              <!-- v-if 指令，当 game.embedUrl 存在时显示嵌入的游戏 iframe -->
+              <iframe 
+                  v-if="game.embedUrl"
+                  :src="game.embedUrl"
+                  class="game-iframe"
+              ></iframe>
+          </div>
+          <!-- 游戏元信息容器，显示评分和玩家数量 -->
+          <div class="meta">
+              <!-- 显示游戏评分 -->
+              <div class="rating">⭐ {{ game.rating }}</div>
+              <!-- 显示游戏玩家数量 -->
+              <div class="players">👥 {{ game.players }} Players</div>
+          </div>
+          <!-- 显示游戏描述 -->
+          <p class="description">{{ game.description }}</p>
+          <!-- 游戏游玩按钮，点击后跳转到游戏链接 -->
+          <a :href="game.url" class="play-button">Play Now</a>
       </div>
+      <!-- v-else 指令，当 loading 为 false 且 game 为空时显示错误信息 -->
       <div v-else class="error">Game not found</div>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue';
-  import { useRoute } from 'vue-router';
-  import { getGameDetails } from '../api/games';
-  
-  const route = useRoute();
-  const game = ref(null);
-  const loading = ref(true);
-  
-  onMounted(async () => {
+  </div>
+</template>
+
+<script setup>
+// 从 Vue 核心库中导入 ref 和 onMounted 函数
+import { ref, onMounted } from 'vue';
+// 从 vue-router 中导入 useRoute 函数，用于获取当前路由信息
+import { useRoute } from 'vue-router';
+// 从自定义的 API 模块中导入获取游戏详情的函数
+import { getGameDetails } from '../api/games';
+
+// 使用 useRoute 函数获取当前路由信息
+const route = useRoute();
+// 使用 ref 创建响应式变量 game，初始值为 null
+const game = ref(null);
+// 使用 ref 创建响应式变量 loading，初始值为 true，表示正在加载
+const loading = ref(true);
+
+// onMounted 钩子函数，在组件挂载到 DOM 后执行
+onMounted(async () => {
     try {
-      const res = await getGameDetails(route.params.id);
-      game.value = res.data;
+        // 调用 getGameDetails 函数，传入当前路由参数中的游戏 ID，获取游戏详情
+        const res = await getGameDetails(route.params.id);
+        console.log(res.data);
+        // 将获取到的游戏详情赋值给 game 变量
+        game.value = res.data;
+        console.log(game.value);
     } catch (error) {
-      console.error('Error loading game details:', error);
+        // 捕获异常并在控制台输出错误信息
+        console.error('Error loading game details:', error);
     } finally {
-      loading.value = false;
+        // 无论请求成功还是失败，将 loading 状态设置为 false，表示加载完成
+        loading.value = false;
     }
-  });
-  </script>
-  
-  <style scoped>
-  .game-detail {
+});
+</script>
+
+<style scoped>
+/* 游戏详情页面主容器样式 */
+.game-detail {
+    /* 最大宽度为 1200px */
     max-width: 1200px;
+    /* 水平居中 */
     margin: 0 auto;
+    /* 内边距为 30px */
     padding: 30px;
-  }
-  .media-container {
+}
+/* 媒体容器样式 */
+.media-container {
+    /* 相对定位 */
     position: relative;
+    /* 上下外边距为 20px */
     margin: 20px 0;
-  }
-  .cover {
+}
+/* 游戏封面图片样式 */
+.cover {
+    /* 宽度为 100% */
     width: 100%;
+    /* 最大宽度为 800px */
     max-width: 800px;
+    /* 圆角半径为 12px */
     border-radius: 12px;
+    /* 块级元素并水平居中 */
     display: block;
     margin: 0 auto;
-  }
-  .game-iframe {
+}
+/* 嵌入游戏的 iframe 样式 */
+.game-iframe {
+    /* 宽度为 100% */
     width: 100%;
+    /* 高度为 600px */
     height: 600px;
+    /* 无边框 */
     border: none;
+    /* 上外边距为 20px */
     margin-top: 20px;
+    /* 圆角半径为 12px */
     border-radius: 12px;
-  }
-  .meta {
+}
+/* 游戏元信息容器样式 */
+.meta {
+    /* 使用 Flexbox 布局 */
     display: flex;
+    /* 元素之间的间距为 20px */
     gap: 20px;
+    /* 上下外边距为 15px */
     margin: 15px 0;
+    /* 文字颜色为 #888 */
     color: #888;
-  }
-  .play-button {
+}
+/* 游戏游玩按钮样式 */
+.play-button {
+    /* 行内块级元素 */
     display: inline-block;
+    /* 背景颜色为 #007bff */
     background: #007bff;
+    /* 文字颜色为白色 */
     color: white;
+    /* 内边距为上下 12px，左右 30px */
     padding: 12px 30px;
+    /* 圆角半径为 25px */
     border-radius: 25px;
+    /* 去除下划线 */
     text-decoration: none;
+    /* 上外边距为 20px */
     margin-top: 20px;
+    /* 过渡效果，持续时间为 0.2 秒 */
     transition: transform 0.2s;
-  }
-  .play-button:hover {
+}
+/* 游戏游玩按钮悬停样式 */
+.play-button:hover {
+    /* 向上移动 2px */
     transform: translateY(-2px);
-  }
-  .loading-spinner {
-    /* 复用首页加载动画样式 */
+}
+/* 加载动画样式 */
+.loading-spinner {
+    /* 行内块级元素 */
     display: inline-block;
+    /* 宽度为 24px */
     width: 24px;
+    /* 高度为 24px */
     height: 24px;
+    /* 边框颜色为 #f3f3f3 */
     border: 2px solid #f3f3f3;
+    /* 顶部边框颜色为 #3498db */
     border-top: 2px solid #3498db;
+    /* 圆角半径为 50%，形成圆形 */
     border-radius: 50%;
+    /* 应用 spin 动画，持续时间为 1 秒，线性变化，无限循环 */
     animation: spin 1s linear infinite;
+    /* 水平居中 */
     margin: 20px auto;
-  }
-  @keyframes spin {
+}
+/* 定义 spin 动画 */
+@keyframes spin {
+    /* 动画开始时旋转 0 度 */
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+    /* 动画结束时旋转 360 度 */
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  .error {
+}
+/* 错误信息样式 */
+.error {
+    /* 文字居中 */
     text-align: center;
+    /* 文字颜色为 #888 */
     color: #888;
+    /* 字体大小为 18px */
     font-size: 18px;
+    /* 上外边距为 30px */
     margin-top: 30px;
-  }
-  </style>
+}
+</style>

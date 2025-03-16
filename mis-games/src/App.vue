@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Navbar  class="navbar"/>
     <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
+      <transition name="fade" mode="out-in"> 
         <component :is="Component" />
       </transition>
     </router-view>
+    
   </div>
+  
 </template>
 
 <script setup>
@@ -19,6 +21,22 @@ import Navbar from './components/Navbar.vue';
   background: #121212;
   color: white;
 }
+</style> -->
+
+<style>
+.navbar {
+  position:fixed;
+  top: 0;
+}
+
+#app {
+  box-sizing: border-box;
+  min-height: 100vh;
+  background: #121212;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -27,15 +45,7 @@ import Navbar from './components/Navbar.vue';
 .fade-leave-to {
   opacity: 0;
 }
-</style> -->
-<style>
-#app {
-  box-sizing: border-box;
-  min-height: 100vh;
-  background: #121212;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-}
+
 /* 桌面端样式 */
 @media (min-width: 1024px) {
   .game-grid{ 

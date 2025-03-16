@@ -8,5 +8,6 @@
   <style scoped>
   .page {
     padding: 2rem;
+    margin-top: 4rem;
   }
   </style>

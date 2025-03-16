@@ -25,6 +25,7 @@
   <style scoped>
   .about-page {
     padding: 2rem;
+    margin-top: 4rem;
     line-height: 1.6;
   }
   h1 {

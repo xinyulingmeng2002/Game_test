@@ -10,20 +10,22 @@
   </template>
   
   <script setup>
-  import { ref, watch } from 'vue';
+  import { ref } from 'vue';
   import { debounce } from 'lodash-es'; // 需安装：npm install lodash-es
   
-  const searchKeyword = ref('');
   const emit = defineEmits(['search']);
-  
-  // 添加防抖（300ms延迟）
-  const debouncedSearch = debounce(() => {
-    emit('search', searchKeyword.value);
+  const searchKeyword = ref('');
+
+  // 搜索框输入时触发防抖函数
+  const handleSearch = debounce(() => {
+    emit('search', searchKeyword.value.trim());
   }, 300);
   
-  const handleSearch = () => {
-    debouncedSearch();
-  };
+  // 组件卸载时取消防抖
+  import { onUnmounted } from 'vue';
+  onUnmounted(() => {
+    handleSearch.cancel();
+  });
   </script>
   
   <style scoped>

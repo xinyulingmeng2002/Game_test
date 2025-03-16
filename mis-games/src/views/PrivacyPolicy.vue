@@ -13,5 +13,6 @@
   <style scoped>
   .privacy-policy {
     padding: 2rem;
+    margin-top: 4rem;
   }
   </style>

@@ -3,8 +3,8 @@
     <div 
       v-for="category in categories" 
       :key="category.name"
-      class="category-item"
-      :class="{ active: selectedCategory === category.name }"
+      class="category-item" 
+      :class="{ active: selectedCategory === category.name }" 
       @click="selectCategory(category.name)"
     >
       <img :src="category.icon" class="icon" />
@@ -28,9 +28,9 @@ const categories = ref([
 const selectedCategory = ref('');
 const emit = defineEmits(['categoryChange']);
 
-const selectCategory = (category) => {
-  selectedCategory.value = category;
-  emit('categoryChange', category);
+const selectCategory = (category) => { // 选择分类
+  selectedCategory.value = category; // 更新选中分类
+  emit('categoryChange', category); // 发射分类改变事件
 };
 </script>
 
@@ -50,6 +50,7 @@ const selectCategory = (category) => {
   position: fixed;
   padding: 1rem;
   margin-left: 8px;
+  margin-top: 5em;
   background: #535252;
   }
   .category-item {

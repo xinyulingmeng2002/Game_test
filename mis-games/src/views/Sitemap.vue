@@ -12,4 +12,8 @@
   
   <style scoped>
   /* 样式 */
+  .sitemap-page {
+    padding: 2rem;
+    margin-top: 4rem;
+  }
   </style>
