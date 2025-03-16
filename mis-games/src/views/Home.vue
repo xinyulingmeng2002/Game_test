@@ -1,9 +1,8 @@
 <template>
   <div class="home">
-    <!-- <Navbar>
-      <SearchBox @search="handleSearch" />
-    </Navbar> -->
-    
+    <div>
+      <Navbar />
+    </div>
     <div class="main-container">
       <Sidebar @categoryChange="handleCategoryChange" />
     </div>
@@ -26,7 +25,6 @@
         <div v-if="isLoading" class="loading-spinner"></div>
         <div v-if="!hasMore" class="no-more">No more games~</div>
       </div>
-      
       <footer class="brand-footer">
         www.misgames.site is brand of misgames.site
       </footer>
@@ -35,12 +33,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, onActivated} from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getGames } from '../api/games';
 import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
-// import SearchBox from '../components/SearchBox.vue';
 
 const games = ref([]);
 const currentPage = ref(1);
@@ -48,11 +45,6 @@ const isLoading = ref(false);
 const hasMore = ref(true);
 const route = useRoute();
 const router = useRouter();
-const lastParams = ref({});
-
-// 新增状态管理
-// const forceRefresh = ref(false);
-// const lastQuery = ref({});
 
 // 加载游戏数据
 const loadMore = async () => {
@@ -79,14 +71,6 @@ const loadMore = async () => {
   }
 };
 
-// handleSearch搜索处理
-// const handleSearch = (keyword) => {
-//   router.push({
-//     path: '/',
-//     query: { ...route.query, search: keyword }
-//   });
-// };
-
 // 分类切换处理
 const handleCategoryChange = (category) => {
   router.push({ 
@@ -106,8 +90,6 @@ watch(() => route.query, () => {
 // 初始加载
 onMounted(loadMore);
 </script>
-
-
 
 <style scoped>
 .home {
@@ -178,7 +160,6 @@ onMounted(loadMore);
   color: #888;
   font-size: 18px;
 }
-
 
 /* 加载中动画 */
 .loading-spinner {

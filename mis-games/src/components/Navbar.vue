@@ -33,30 +33,29 @@ const menuItems = ref([
 const router = useRouter();
 const route = useRoute();
 
-// handleSearch搜索处理
+// 处理搜索功能
 const handleSearch = (keyword) => {
   console.log('Search keyword:', keyword);
 
   router.push({
     path: '/',
     query: { ...route.query, search: keyword }
-    });
+  });
 };
 </script>
 
 <style scoped>
 .navbar {
-  /* 固定导航栏 */
   width: 100%;
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
   position: fixed;
   gap: 2rem;
-  /* background: #1a1a1a; */
   background: #796c6c;
   z-index: 1000;
 }
+
 .logo {
   font-size: 24px;
   font-weight: bold;
@@ -64,15 +63,18 @@ const handleSearch = (keyword) => {
   margin-left: 40px;
   color: white;
 }
+
 .nav-menu {
   display: flex;
   margin-left: 90px;
   gap: 2.5rem;
 }
+
 .nav-menu a {
   color: #ccc;
   text-decoration: none;
 }
+
 .nav-menu a:hover {
   color: white;
 }

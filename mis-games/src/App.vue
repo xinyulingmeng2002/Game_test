@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar  class="navbar"/>
+    <Navbar  class="navbar"/>   
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in"> 
         <component :is="Component" />
@@ -14,6 +14,7 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
 </script>
+
 
 <!-- <style>
 #app {

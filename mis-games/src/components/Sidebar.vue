@@ -28,46 +28,54 @@ const categories = ref([
 const selectedCategory = ref('');
 const emit = defineEmits(['categoryChange']);
 
-const selectCategory = (category) => { // 选择分类
+const selectCategory = (category) => {
   selectedCategory.value = category; // 更新选中分类
-  emit('categoryChange', category); // 发射分类改变事件
+  emit('categoryChange', category); // 触发分类改变事件
 };
 </script>
 
 
 <style scoped>
 .sidebar {
-  /* background: #2a2a2a; */
   background: #858585;
   transition: all 0.3s ease;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #ccc;
+  border-radius: 6px;
+}
+
+.category-item:hover {
+  background: #3a3a3a;
+}
+
+.category-item.active {
+  background: #007bff;
+  color: white;
+}
+
+.icon {
+  margin-right: 11px;
 }
 
 /* 桌面端样式 */
 @media (min-width: 1024px) {
   .sidebar {
-  width: 140px;
-  height: 70%;
-  position: fixed;
-  padding: 1rem;
-  margin-left: 8px;
-  margin-top: 5em;
-  background: #535252;
+    width: 160px;
+    height: 70%;
+    position: fixed;
+    padding: 1rem;
+    margin-left: 8px;
+    margin-top: 5em;
+    background: #535252;
   }
   .category-item {
-    display: flex;
-    align-items: center;
     padding: 12px;
-    cursor: pointer;
-    color: #ccc;
-    border-radius: 6px;
     margin-bottom: 27px;
-  }
-  .category-item:hover {
-    background: #3a3a3a;
-  }
-  .category-item.active {
-    background: #007bff;
-    color: white;
   }
   .icon {
     width: 24px;
@@ -79,31 +87,18 @@ const selectCategory = (category) => { // 选择分类
 /* 平板适配 */
 @media (max-width: 1023px) and (min-width: 768px) {
   .sidebar {
-  width: 130px;
-  padding: 1rem;
-  margin-left: 7px;
-  background: #4a4949;
+    width: 130px;
+    padding: 1rem;
+    margin-left: 7px;
+    background: #4a4949;
   }
   .category-item {
-    display: flex;
-    align-items: center;
     padding: 11px;
-    cursor: pointer;
-    color: #ccc;
-    border-radius: 6px;
     margin-bottom: 8px;
-  }
-  .category-item:hover {
-    background: #3a3a3a;
-  }
-  .category-item.active {
-    background: #007bff;
-    color: white;
   }
   .icon {
     width: 22px;
     height: 22px;
-    margin-right: 11px;
   }
 }
 
@@ -128,12 +123,8 @@ const selectCategory = (category) => { // 选择分类
     padding: 8px;
   }
   .icon {
-    /* margin: 0 auto 4px; */
-    
     width: 11px;
     height: 11px;
-    margin-right: 11px;
-  
   }
 }
 </style>

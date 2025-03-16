@@ -76,6 +76,7 @@ onMounted(async () => {
     max-width: 1200px;
     /* 水平居中 */
     margin: 0 auto;
+    margin-top: 4rem;
     /* 内边距为 30px */
     padding: 30px;
 }
