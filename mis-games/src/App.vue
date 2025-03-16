@@ -1,32 +1,21 @@
 <template>
   <div id="app">
-    <Navbar  class="navbar"/>   
+    <Navbar class="navbar" />   
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in"> 
         <component :is="Component" />
       </transition>
     </router-view>
-    
   </div>
-  
 </template>
 
 <script setup>
 import Navbar from './components/Navbar.vue';
 </script>
 
-
-<!-- <style>
-#app {
-  min-height: 100vh;
-  background: #121212;
-  color: white;
-}
-</style> -->
-
 <style>
 .navbar {
-  position:fixed;
+  position: fixed;
   top: 0;
 }
 
@@ -49,21 +38,21 @@ import Navbar from './components/Navbar.vue';
 
 /* 桌面端样式 */
 @media (min-width: 1024px) {
-  .game-grid{ 
+  .game-grid { 
     margin-left: 170px; /* 与侧边栏 width: 150px 保持一致 */
   }
 }
 
 /* 平板适配 */
 @media (max-width: 1023px) and (min-width: 768px) {
-  .game-grid{
+  .game-grid {
     margin-left: 0px; /* 与侧边栏 width: 130px 保持一致 */
   }
 }
 
 /* 移动端基础字号调整 */
 @media (max-width: 767px) {
-  .game-grid{
+  .game-grid {
     margin-left: 0;
   }
   html {

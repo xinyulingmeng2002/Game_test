@@ -47,7 +47,7 @@ const handleSearch = (keyword) => {
 <style scoped>
 .navbar {
   width: 100%;
-  padding: 1.3rem 4rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,7 +57,7 @@ const handleSearch = (keyword) => {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   text-decoration: none;
   color: white;
@@ -65,14 +65,12 @@ const handleSearch = (keyword) => {
 
 .nav-menu {
   display: flex;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .nav-menu a {
   color: #ccc;
   text-decoration: none;
-  font-size: 19px; 
-  transition: color 0.3s ease;  
 }
 
 .nav-menu a:hover {

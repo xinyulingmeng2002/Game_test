@@ -1,35 +1,28 @@
 <template>
-    <div class="search-box">
-      <input 
-        type="text" 
-        v-model="searchKeyword"
-        placeholder="Search games..."
-        @input="handleSearch"
-      />
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import { debounce } from 'lodash-es'; // 需安装：npm install lodash-es
-  
-  const emit = defineEmits(['search']);
-  const searchKeyword = ref('');
+  <div class="search-box">
+    <input 
+      type="text" 
+      v-model="searchQuery" 
+      @input="handleSearch" 
+      placeholder="Search games..."
+    />
+  </div>
+</template>
 
-  // 搜索框输入时触发防抖函数
-  const handleSearch = debounce(() => {
-    emit('search', searchKeyword.value.trim());
-  }, 300);
-  
-  // 组件卸载时取消防抖
-  import { onUnmounted } from 'vue';
-  onUnmounted(() => {
-    handleSearch.cancel();
-  });
-  </script>
-  
-  <style scoped>
-  .search-box {
+<script setup>
+import { ref } from 'vue';
+import { useEmitter } from '../components/useEmitter'; // 修改为正确的相对路径
+
+const searchQuery = ref('');
+const emitter = useEmitter();
+
+const handleSearch = () => {
+  emitter.emit('search', searchQuery.value);
+};
+</script>
+
+<style scoped>
+.search-box {
   margin: 0 20px;
   flex: 1;
   max-width: 400px;
@@ -47,4 +40,4 @@
   border-color: #00ff88;
   box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
   }
-  </style>
+</style>

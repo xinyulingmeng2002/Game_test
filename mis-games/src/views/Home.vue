@@ -2,6 +2,7 @@
   <div class="home">
     <div>
       <Navbar />
+      <!-- <SearchBox /> 添加搜索框组件 -->
     </div>
     <div class="main-container">
       <Sidebar @categoryChange="handleCategoryChange" />
@@ -38,6 +39,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { getGames } from '../api/games';
 import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
+import Navbar from '../components/Navbar.vue';
+import SearchBox from '../components/SearchBox.vue'; // 引入 SearchBox 组件
+import { useEmitter } from '../components/useEmitter'; // 假设使用自定义的事件总线
 
 const games = ref([]);
 const currentPage = ref(1);
@@ -45,23 +49,64 @@ const isLoading = ref(false);
 const hasMore = ref(true);
 const route = useRoute();
 const router = useRouter();
+const searchQuery = ref('');
+
+const emitter = useEmitter();
+
+// 监听搜索事件
+emitter.on('search', (query) => {
+  searchQuery.value = query;
+  searchGames(query);
+});
 
 // 加载游戏数据
 const loadMore = async () => {
-  if (isLoading.value || !hasMore.value) return;
+  if (isLoading.value || !hasMore.value) return; // 防止重复加载
   isLoading.value = true;
 
   try {
     const res = await getGames({
-      page: currentPage.value,
-      limit: 12,
-      category: route.query.category
+      pageNum: currentPage.value, // 修改为pageNum
+      pageSize: 35, 
+      category: route.query.category,  // 分类
+      title: searchQuery.value // 添加搜索查询
     });
 
-    if (res.data.length === 0) {
+    if (res.data.rows.length === 0) { // 修改为res.data.rows
       hasMore.value = false;
     } else {
-      games.value = [...games.value, ...res.data];
+      console.log('Loaded games:', res.data.rows);
+      // 只保留最近加载的100个游戏数据，避免数据无限累积
+      games.value = [...games.value.slice(-65), ...res.data.rows]; // 修改为res.data.rows
+      currentPage.value++;
+    }
+  } catch (error) {
+    console.error('Error loading games:', error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// 搜索游戏
+const searchGames = async (query) => {
+  if (isLoading.value) return; // 防止重复加载
+  isLoading.value = true;
+  currentPage.value = 1; // 重置当前页码
+  games.value = []; // 清空游戏列表
+
+  try {
+    const res = await getGames({
+      pageNum: currentPage.value, // 修改为pageNum
+      pageSize: 35, 
+      category: route.query.category,  // 分类
+      title: query // 添加搜索查询
+    });
+
+    if (res.data.rows.length === 0) { // 修改为res.data.rows
+      hasMore.value = false;
+    } else {
+      console.log('Loaded games:', res.data.rows);
+      games.value = res.data.rows; // 修改为res.data.rows
       currentPage.value++;
     }
   } catch (error) {
@@ -75,7 +120,7 @@ const loadMore = async () => {
 const handleCategoryChange = (category) => {
   router.push({ 
     path: '/',
-    query: { category }
+    query: { category } // 分类参数
   });
 };
 
@@ -117,9 +162,9 @@ onMounted(loadMore);
 /* 游戏网格优化 */
 .game-grid {
   display: grid;
-  gap: 16px;
+  gap: 10px;
   margin-top: 4rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr)); /* 修改: 将 min(210px, 100%) 改为 min(160px, 100%) */
 }
 
 /* 加载按钮优化 */

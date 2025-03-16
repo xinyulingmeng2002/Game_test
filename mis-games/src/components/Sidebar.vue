@@ -22,7 +22,8 @@ const categories = ref([
   { name: 'Featured', icon: new URL('../assets/icons/featured.svg', import.meta.url).href },
   { name: 'Casual', icon: new URL('../assets/icons/casual.svg', import.meta.url).href },
   { name: 'Hot', icon: new URL('../assets/icons/hot.svg', import.meta.url).href },
-  { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href }
+  { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href },
+  
 ]);
 
 const selectedCategory = ref('');
@@ -47,6 +48,9 @@ const selectCategory = (category) => {
   cursor: pointer;
   color: #ccc;
   border-radius: 6px;
+  white-space: nowrap;  
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
 .category-item:hover {
@@ -105,7 +109,7 @@ const selectCategory = (category) => {
 /* 移动端适配 */
 @media (max-width: 767px) {
   .sidebar {
-    width: 100%;
+    /* display: flex; */
     height: auto;
     position: relative;
   }
@@ -116,11 +120,19 @@ const selectCategory = (category) => {
     padding: 12px;
   }
   .category-item {
-    flex: 1 0 45%;
+    flex: 1 0 45%; 
+
     max-width: 100px;
     flex-direction: column;
     text-align: left;
     padding: 8px;
+  }
+
+  .category-item:first-child {
+    margin-top: 14rem;
+  }
+  .category-item:last-child {
+    margin-bottom: 0;
   }
   .icon {
     width: 11px;

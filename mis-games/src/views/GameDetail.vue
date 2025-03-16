@@ -1,38 +1,45 @@
 <template>
-  <!-- 游戏详情页面的主容器 -->
-  <div class="game-detail">
-      <!-- v-if 指令，当 loading 为 true 时显示加载动画 -->
-      <div v-if="loading" class="loading-spinner"></div>
-      <!-- v-else-if 指令，当 loading 为 false 且 game 有值时显示游戏详情内容 -->
-      <div v-else-if="game" class="content">
-          <!-- 显示游戏标题 -->
-          <h1 class="title">{{ game.title }}</h1>
-          <!-- 媒体容器，用于包含游戏封面图片和嵌入的游戏 iframe -->
-          <div class="media-container">
-              <!-- 显示游戏封面图片，使用 :src 绑定图片地址 -->
-              <img :src="game.cover" class="cover" />
-              <!-- v-if 指令，当 game.embedUrl 存在时显示嵌入的游戏 iframe -->
-              <iframe 
-                  v-if="game.embedUrl"
-                  :src="game.embedUrl"
-                  class="game-iframe"
-              ></iframe>
-          </div>
-          <!-- 游戏元信息容器，显示评分和玩家数量 -->
-          <div class="meta">
-              <!-- 显示游戏评分 -->
-              <div class="rating">⭐ {{ game.rating }}</div>
-              <!-- 显示游戏玩家数量 -->
-              <div class="players">👥 {{ game.players }} Players</div>
-          </div>
-          <!-- 显示游戏描述 -->
-          <p class="description">{{ game.description }}</p>
-          <!-- 游戏游玩按钮，点击后跳转到游戏链接 -->
-          <a :href="game.url" class="play-button">Play Now</a>
-      </div>
-      <!-- v-else 指令，当 loading 为 false 且 game 为空时显示错误信息 -->
-      <div v-else class="error">Game not found</div>
-  </div>
+    <!-- 游戏详情页面的主容器 -->
+    <div class="game-detail">
+        <!-- v-if 指令，当 loading 为 true 时显示加载动画 -->
+        <div v-if="loading" class="loading-spinner"></div>
+        <!-- v-else-if 指令，当 loading 为 false 且 game 有值时显示游戏详情内容 -->
+        <div v-else-if="game" class="content">
+            <!-- 显示游戏标题 -->
+            <h1 class="title">{{ game.title }}</h1>
+            <!-- 媒体容器，用于包含游戏封面图片和嵌入的游戏 iframe -->
+            <div class="media-container">
+                <!-- 显示游戏封面图片，使用 :src 绑定图片地址 -->
+                <img :src="game.cover" class="cover" />
+                <!-- v-if 指令，当 game.embedUrl 存在时显示嵌入的游戏 iframe -->
+                <iframe 
+                    v-if="game.embedUrl"
+                    :src="game.embedUrl"
+                    class="game-iframe"
+                ></iframe>
+            </div>
+            <!-- 游戏元信息容器，显示评分和玩家数量 -->
+            <div class="meta">
+                <!-- 显示游戏评分 -->
+                <div class="rating">⭐ {{ game.rating || '4.5' }}</div>
+                <!-- 显示游戏玩家数量 -->
+                <div class="players">👥 {{ game.players || 0 }}</div>
+            </div>
+            <!-- 显示游戏描述 -->
+            <p class="description">{{ game.description }}</p>
+            <!-- 游戏游玩按钮，点击后跳转到游戏链接 -->
+            <a :href="game.url" class="play-button">Play Now</a>
+            <div v-if="recommendedGames.length" class="recommended-games">
+              <h2>Recommended Games</h2>
+              <div class="game-list">
+                <GameCard v-for="game in recommendedGames" :key="game.id" :game="game" />
+              </div>
+            </div>
+            
+        </div>
+        <!-- v-else 指令，当 loading 为 false 且 game 为空时显示错误信息 -->
+        <div v-else class="error">Game not found</div>
+    </div>
 </template>
 
 <script setup>
@@ -42,6 +49,8 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 // 从自定义的 API 模块中导入获取游戏详情的函数
 import { getGameDetails } from '../api/games';
+import { getGames } from '../api/games'; // 引入 getGames 函数
+import GameCard from '../components/GameCard.vue'; // 引入 GameCard 组件
 
 // 使用 useRoute 函数获取当前路由信息
 const route = useRoute();
@@ -49,24 +58,67 @@ const route = useRoute();
 const game = ref(null);
 // 使用 ref 创建响应式变量 loading，初始值为 true，表示正在加载
 const loading = ref(true);
+// 使用 ref 创建响应式变量 recommendedGames，初始值为空数组
+const recommendedGames = ref([]);
+
+// 获取随机游戏的方法
+const getRandomGames = async () => {
+    try {
+        const res = await getGames(); // 获取所有游戏列表
+        const games = res.data.rows; // 假设返回的游戏列表在 res.data.rows 中
+
+        if (games.length > 0) {
+            const randomGames = getRandomSample(games, 10); // 随机选取 10 个游戏
+            console.log('Random games:', randomGames);
+            recommendedGames.value = randomGames;
+            console.log('Recommended games:', recommendedGames.value);
+        } else {
+            console.warn('No games available to recommend.');
+            recommendedGames.value = []; // 如果没有游戏，则清空推荐列表
+        }
+    } catch (error) {
+        console.error('Error loading random games:', error);
+        // 提供用户友好的错误处理
+        recommendedGames.value = []; // 清空推荐列表
+        alert('Failed to load random games. Please try again later.'); // 可选：通知用户
+    }
+};
+
+// 使用 Fisher-Yates 洗牌算法生成随机样本
+const getRandomSample = (array, count) => {
+    const shuffled = array.slice(); // 创建副本以避免修改原数组
+    let i = shuffled.length;
+    while (i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // 交换元素
+    }
+    return shuffled.slice(0, count); // 返回指定数量的随机样本
+};
 
 // onMounted 钩子函数，在组件挂载到 DOM 后执行
 onMounted(async () => {
     try {
-        // 调用 getGameDetails 函数，传入当前路由参数中的游戏 ID，获取游戏详情
         const res = await getGameDetails(route.params.id);
         console.log(res.data);
-        // 将获取到的游戏详情赋值给 game 变量
-        game.value = res.data;
+        game.value = {
+            id: res.data.data.id,
+            title: res.data.data.title,
+            cover: res.data.data.cover,
+            embedUrl: res.data.data.gurl, // 修改为gurl
+            rating: res.data.data.rating || '4.5', // 假设rating在数据中不存在
+            players: res.data.data.players || 0, // 假设players在数据中不存在
+            description: res.data.data.descr, // 修改为descr
+            url: res.data.data.gurl // 添加游戏链接
+        };
         console.log(game.value);
     } catch (error) {
-        // 捕获异常并在控制台输出错误信息
         console.error('Error loading game details:', error);
     } finally {
-        // 无论请求成功还是失败，将 loading 状态设置为 false，表示加载完成
         loading.value = false;
     }
+    getRandomGames(); // 获取随机游戏
 });
+
 </script>
 
 <style scoped>
@@ -187,5 +239,40 @@ onMounted(async () => {
     font-size: 18px;
     /* 上外边距为 30px */
     margin-top: 30px;
+}
+
+.recommended-games {
+    margin-top: 40px;
+    padding: 20px;
+    background: #222;
+    border-radius: 8px;
+}
+
+.recommended-games h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.game-list {
+    display: flex;
+    overflow-x: auto; /* 启用水平滚动 */
+    gap: 10px;
+    width: 100%; /* 确保容器宽度为 100% */
+}
+
+.game-list::-webkit-scrollbar {
+    height: 8px;
+}
+
+.game-list::-webkit-scrollbar-track {
+    background: #333;
+}
+
+.game-list::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+.game-list::-webkit-scrollbar-thumb:hover {
+    background: #777;
 }
 </style>

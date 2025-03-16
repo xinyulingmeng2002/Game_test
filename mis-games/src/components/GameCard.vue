@@ -16,8 +16,8 @@
     <div class="game-info">
       <h3 class="title">{{ game.title }}</h3>
       <div class="meta">
-        <span class="category">{{ game.category }}</span>
-        <span class="rating">⭐ {{ game.rating || '4.5' }}</span>
+        <!-- <span class="category">{{ game.category }}</span> -->
+        <!-- <span class="rating">⭐ {{ game.rating || '4.5' }}</span> -->
       </div>
     </div>
   </router-link>
@@ -41,6 +41,7 @@ const isHovered = ref(false);
   overflow: hidden;
   text-decoration: none;
   transition: transform 0.3s ease;
+  width: 120px;
 }
 
 .game-card:hover {
@@ -49,13 +50,13 @@ const isHovered = ref(false);
 
 .image-container {
   position: relative;
-  padding-top: 56.25%;
+  padding-top: 100%; /* 修改: 将 padding-top 从 56.25% 改为 100% */
   overflow: hidden;
 }
 
 img {
   position: absolute;
-  top: 0;
+  top: 0; /* 修改: 添加分号 */
   left: 0;
   width: 100%;
   height: 100%;
@@ -68,13 +69,16 @@ img.hover-effect {
 }
 
 .game-info {
-  padding: 12px;
+  padding: 6px;
 }
 
 .title {
   color: white;
-  font-size: 14px;
-  margin: 0 0 8px;
+  font-size: 12px;
+  margin: 0 0 4px;
+  white-space: nowrap;  
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
 .meta {

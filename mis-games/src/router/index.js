@@ -4,7 +4,7 @@ import Home from '../views/Home.vue';
 const routes = [{
         path: '/',
         component: Home,
-        meta: { requiresRefresh: true },
+        meta: { requiresRefresh: true }, // 添加 meta 标签
         beforeEnter: (to, from, next) => {
             console.log('即将进入首页');
             next();
@@ -14,7 +14,8 @@ const routes = [{
         path: '/game/:id',
         component: () =>
             import ('../views/GameDetail.vue'),
-        props: true
+        props: true,
+        meta: { requiresRefresh: true } // 添加 meta 标签
     },
     {
         path: '/disclaimer',
@@ -55,6 +56,19 @@ const router = createRouter({
         }
         return { top: 0, behavior: 'smooth' };
     }
+});
+
+// 添加导航守卫，用于强制刷新组件
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresRefresh) {
+        // 强制刷新组件
+        to.matched.forEach(record => {
+            if (record.instances.default) {
+                record.instances.default.$forceUpdate();
+            }
+        });
+    }
+    next();
 });
 
 export default router;
