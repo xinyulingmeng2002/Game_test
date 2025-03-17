@@ -17,13 +17,13 @@
 import { ref } from 'vue';
 
 const categories = ref([
-  { name: 'Puzzle', icon: new URL('../assets/icons/puzzle.svg', import.meta.url).href },
-  { name: 'Kids', icon: new URL('../assets/icons/kids.svg', import.meta.url).href },
-  { name: 'Featured', icon: new URL('../assets/icons/featured.svg', import.meta.url).href },
-  { name: 'Casual', icon: new URL('../assets/icons/casual.svg', import.meta.url).href },
-  { name: 'Hot', icon: new URL('../assets/icons/hot.svg', import.meta.url).href },
-  { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href },
-  
+  { name: 'Puzzle', icon: new URL('../assets/icons/puzzle.svg', import.meta.url).href, page: 1 },
+  { name: 'Kids', icon: new URL('../assets/icons/kids.svg', import.meta.url).href, page: 2 },
+  { name: 'Featured', icon: new URL('../assets/icons/featured.svg', import.meta.url).href, page: 3 },
+  { name: 'Casual', icon: new URL('../assets/icons/casual.svg', import.meta.url).href, page: 4 },
+  { name: 'Hot', icon: new URL('../assets/icons/hot.svg', import.meta.url).href, page: 5 },
+  { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 6 },
+  // 添加更多分类和页码
 ]);
 
 const selectedCategory = ref('');
@@ -31,10 +31,10 @@ const emit = defineEmits(['categoryChange']);
 
 const selectCategory = (category) => {
   selectedCategory.value = category; // 更新选中分类
-  emit('categoryChange', category); // 触发分类改变事件
+  const selectedPage = categories.value.find(cat => cat.name === category)?.page || 1;
+  emit('categoryChange', category, selectedPage); // 触发分类改变事件并传递页码
 };
 </script>
-
 
 <style scoped>
 .sidebar {
@@ -121,7 +121,6 @@ const selectCategory = (category) => {
   }
   .category-item {
     flex: 1 0 45%; 
-
     max-width: 100px;
     flex-direction: column;
     text-align: left;

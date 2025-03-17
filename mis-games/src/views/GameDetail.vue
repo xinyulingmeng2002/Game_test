@@ -142,9 +142,9 @@ onMounted(async () => {
 /* 游戏封面图片样式 */
 .cover {
     /* 宽度为 100% */
-    width: 100%;
+    /* width: 1000%; */
     /* 最大宽度为 800px */
-    max-width: 800px;
+    max-width: 200px;
     /* 圆角半径为 12px */
     border-radius: 12px;
     /* 块级元素并水平居中 */

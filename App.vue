@@ -1,25 +1,12 @@
-<template>
-  <div id="app">
-    <Navbar class="navbar" />   
-    <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in"> 
-        <component :is="Component" />
-      </transition>
-    </router-view>
-  </div>
-</template>
-
-<script setup>
-import Navbar from './components/Navbar.vue';
-</script>
-
 <style>
 .navbar {
   position: fixed;
   top: 0;
 }
 
-
+:root {
+  --sidebar-width: 170px; /* 桌面端默认宽度 */
+}
 
 #app {
   box-sizing: border-box;
@@ -29,19 +16,12 @@ import Navbar from './components/Navbar.vue';
   font-family: 'Poppins', sans-serif;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+/* ... existing code ... */
 
 /* 桌面端样式 */
 @media (min-width: 1024px) {
   :root {
-    --sidebar-width: 70px;
+    --sidebar-width: 170px;
   }
   .game-grid { 
     margin-left: var(--sidebar-width); /* 使用CSS变量 */
@@ -51,7 +31,7 @@ import Navbar from './components/Navbar.vue';
 /* 平板适配 */
 @media (max-width: 1023px) and (min-width: 768px) {
   :root {
-    --sidebar-width: 0px;
+    --sidebar-width: 130px;
   }
   .game-grid {
     margin-left: var(--sidebar-width); /* 使用CSS变量 */
@@ -70,17 +50,6 @@ import Navbar from './components/Navbar.vue';
     font-size: 14px;
   }
 }
-/* 防止图片溢出 */
-img {
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
 
-/* 弹性盒子改进 */
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+/* ... existing code ... */
 </style>

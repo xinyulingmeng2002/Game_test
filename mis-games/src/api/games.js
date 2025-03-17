@@ -15,9 +15,10 @@ let cache = new Map();
  * @param {Object} params - 请求的参数，默认为空对象
  * @returns {Promise} - 返回一个 Promise，包含请求的响应结果
  */
-export const getGames = async (params = {}) => {
+export const getGames = async(params = {}) => {
     // 将请求参数转换为 JSON 字符串，作为缓存的键
     const cacheKey = JSON.stringify(params);
+    console.log(cacheKey);
     // 检查缓存中是否已经存在该请求的结果
     if (cache.has(cacheKey)) {
         // 如果存在，直接从缓存中获取并返回结果
@@ -48,7 +49,7 @@ export const getGames = async (params = {}) => {
  * @param {string} id - 游戏的 ID
  * @returns {Promise} - 返回一个 Promise，包含请求的响应结果
  */
-export const getGameDetails = async (id) => {
+export const getGameDetails = async(id) => {
     try {
         const res = await axios.get(`${API_BASE}/getInfo/${id}`);
         console.log(res);

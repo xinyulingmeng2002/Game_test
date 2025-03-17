@@ -40,7 +40,7 @@ import { getGames } from '../api/games';
 import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
 import Navbar from '../components/Navbar.vue';
-import SearchBox from '../components/SearchBox.vue'; // 引入 SearchBox 组件
+// import SearchBox from '../components/SearchBox.vue'; // 引入 SearchBox 组件
 import { useEmitter } from '../components/useEmitter'; // 假设使用自定义的事件总线
 
 const games = ref([]);
@@ -117,11 +117,14 @@ const searchGames = async (query) => {
 };
 
 // 分类切换处理
-const handleCategoryChange = (category) => {
+const handleCategoryChange = (category, page) => {
   router.push({ 
     path: '/',
     query: { category } // 分类参数
   });
+  currentPage.value = page; // 设置当前页码
+  games.value = []; // 清空游戏列表
+  loadMore(); // 重新加载游戏数据
 };
 
 // 监听路由变化
@@ -145,8 +148,9 @@ onMounted(loadMore);
 
 .content {
   flex: 1;
-  padding: 20px;
+  padding: 30px;
   min-width: 0; /* 修复flex溢出问题 */
+  margin-left: calc(var(--sidebar-width) + 1rem); /* 动态计算margin-left */
 }
 
 /* 响应式调整 */
@@ -156,15 +160,16 @@ onMounted(loadMore);
   }
   .content {
     padding: 10px;
+    margin-left: 0; 
   }
 }
 
 /* 游戏网格优化 */
 .game-grid {
   display: grid;
-  gap: 10px;
+  gap: 15px;
   margin-top: 4rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr)); /* 修改: 将 min(210px, 100%) 改为 min(160px, 100%) */
+  grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr)); /* 修改: 将 min(210px, 100%) 改为 min(160px, 100%) */
 }
 
 /* 加载按钮优化 */
@@ -236,7 +241,7 @@ onMounted(loadMore);
 @media (min-width: 1024px) {
   .load-more,
   .brand-footer { 
-    margin-left: 170px; /* 与侧边栏 width: 150px 保持一致 */
+    margin-left: 70px; /* 与侧边栏 width: 150px 保持一致 */
   }
 }
 
@@ -244,7 +249,7 @@ onMounted(loadMore);
 @media (max-width: 1023px) and (min-width: 768px) {
   .load-more,
   .brand-footer {
-    margin-left: 130px; /* 与侧边栏 width: 130px 保持一致 */
+    margin-left: 0px; 
   }
 }
 

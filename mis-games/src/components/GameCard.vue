@@ -36,12 +36,12 @@ const isHovered = ref(false);
 <style scoped>
 .game-card {
   display: block;
-  background: #333;
   border-radius: 8px;
   overflow: hidden;
   text-decoration: none;
   transition: transform 0.3s ease;
-  width: 120px;
+  width: 87%;
+  /* width: 150px;  */
 }
 
 .game-card:hover {
@@ -69,13 +69,13 @@ img.hover-effect {
 }
 
 .game-info {
-  padding: 6px;
+  padding: 8px;
 }
 
 .title {
   color: white;
-  font-size: 12px;
-  margin: 0 0 4px;
+  font-size: 14px;
+  margin: 0 0 8px;
   white-space: nowrap;  
   overflow: hidden; 
   text-overflow: ellipsis; 
