@@ -28,11 +28,11 @@ export const getGames = async(params = {}) => {
     try {
         // 发送 GET 请求到 API 的 /index 端点，并传递请求参数
         const res = await axios.get(`${API_BASE}/index`, { params });
-        console.log(res);
+        // console.log(res);
 
         // 将请求结果存入缓存
         cache.set(cacheKey, res);
-        console.log(res);
+        // console.log(res);
 
         // 返回请求结果
         return res;

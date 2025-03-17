@@ -10,8 +10,10 @@
         {{ item.name }}
       </router-link>
     </div>
-    <!-- 确保 SearchBox 在所有视图中正常工作 -->
-    <SearchBox @search="handleSearch" />
+    <!-- <slot></slot> 搜索框插槽 -->
+    <slot>
+      <SearchBox @search="handleSearch" />
+    </slot>
   </nav>
 </template>
 
@@ -25,9 +27,9 @@ const menuItems = ref([
   { name: 'Disclaimer', path: '/disclaimer' },
   { name: 'Privacy Policy', path: '/privacy-policy' },
   { name: 'Sitemap', path: '/sitemap' },
-  { name: 'About', path: '/about' }
+  { name: 'About', path: '/about' },
+  // { name: 'GameDetail', path: '/game/:id' }
 ]);
-
 const router = useRouter();
 const route = useRoute();
 

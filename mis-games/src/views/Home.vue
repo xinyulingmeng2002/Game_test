@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div>
-      <Navbar />
+      <!-- <Navbar /> -->
       <!-- <SearchBox /> 添加搜索框组件 -->
     </div>
     <div class="main-container">
@@ -75,10 +75,10 @@ const loadMore = async () => {
     if (res.data.rows.length === 0) { // 修改为res.data.rows
       hasMore.value = false;
     } else {
-      console.log('Loaded games:', res.data.rows);
+      // console.log('Loaded games:', res.data.rows);
       // 只保留最近加载的100个游戏数据，避免数据无限累积
       // games.value = [...games.value.slice(-65), ...res.data.rows]; // 修改为res.data.rows
-      games.value = [...games.value, ...res.data.rows]; // 修改为res.data.rows
+      games.value = [...games.value.slice(-210), ...res.data.rows]; // 修改为res.data.rows
       currentPage.value++;
     }
   } catch (error) {
@@ -156,6 +156,7 @@ onMounted(loadMore);
   display: flex;
   flex-direction: row;
   min-height: 100vh;
+  z-index: -1000;
 }
 
 .content {

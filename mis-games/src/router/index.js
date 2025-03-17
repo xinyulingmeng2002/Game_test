@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import Disclaimer from '../views/Disclaimer.vue';
+import PrivacyPolicy from '../views/PrivacyPolicy.vue';
+import Sitemap from '../views/Sitemap.vue';
+import About from '../views/About.vue';
 import GameDetail from '../views/GameDetail.vue';
 
-const routes = [
-    {
+const routes = [{
         path: '/',
         name: 'Home',
         component: Home,
-        meta: { requiresRefresh: true }, // 添加 meta 标签
+        // meta: { requiresRefresh: true }, // 添加 meta 标签
         beforeEnter: (to, from, next) => {
             console.log('即将进入首页');
             next();
@@ -16,11 +19,14 @@ const routes = [
     {
         path: '/game/:id',
         name: 'GameDetail',
-        component: GameDetail,
+        component: () =>
+            import ('../views/GameDetail.vue'),
+        props: true,
         meta: { requiresRefresh: true } // 添加 meta 标签
     },
     {
         path: '/disclaimer',
+        name: 'Disclaimer',
         component: () =>
             import ('../views/Disclaimer.vue'),
         props: true,
@@ -28,6 +34,7 @@ const routes = [
     },
     {
         path: '/privacy-policy',
+        name: 'PrivacyPolicy',
         component: () =>
             import ('../views/PrivacyPolicy.vue'),
         props: true,
@@ -35,6 +42,7 @@ const routes = [
     },
     {
         path: '/about',
+        name: 'About',
         component: () =>
             import ('../views/About.vue'),
         props: true,
@@ -42,6 +50,7 @@ const routes = [
     },
     {
         path: '/sitemap',
+        name: 'Sitemap',
         component: () =>
             import ('../views/Sitemap.vue'),
         props: true,
@@ -64,25 +73,25 @@ const router = createRouter({
     }
 });
 
-// 添加导航守卫，用于强制刷新组件
-router.beforeEach((to, from, next) => {
-    if (to.meta.requiresRefresh) {
-        console.log('即将进入页面，强制刷新组件');
-        console.log(to);
-        console.log(from);
-        console.log(to.matched);
-        // 强制刷新组件
-        try {
-            to.matched.forEach(record => {
-                if (record.instances.default) {
-                    record.instances.default.$forceUpdate();
-                }
-            });
-        } catch (error) {
-            console.error('强制刷新组件时出现错误:', error);
-        }
-    }
-    next();
-});
+// // 添加导航守卫，用于强制刷新组件
+// router.beforeEach((to, from, next) => {
+//     if (to.meta.requiresRefresh) {
+//         console.log('即将进入页面，强制刷新组件');
+//         console.log(to);
+//         console.log(from);
+//         console.log(to.matched);
+//         // 强制刷新组件
+//         try {
+//             to.matched.forEach(record => {
+//                 if (record.instances.default) {
+//                     record.instances.default.$forceUpdate();
+//                 }
+//             });
+//         } catch (error) {
+//             console.error('强制刷新组件时出现错误:', error);
+//         }
+//     }
+//     next();
+// });
 
 export default router;

@@ -1,16 +1,18 @@
 <template>
     <!-- 游戏详情页面的主容器 -->
     <div class="game-detail">
+        <!-- 返回按钮 -->
+        <button @click="goBack" class="back-button">Back to Home</button>
         <!-- v-if 指令，当 loading 为 true 时显示加载动画 -->
         <div v-if="loading" class="loading-spinner"></div>
         <!-- v-else-if 指令，当 loading 为 false 且 game 有值时显示游戏详情内容 -->
         <div v-else-if="game" class="content">
             <!-- 显示游戏标题 -->
-            <h2 class="title">{{ game.title }}</h2>
+            <h1 class="title">{{ game.title }}</h1>
             <!-- 媒体容器，用于包含游戏封面图片和嵌入的游戏 iframe -->
             <div class="media-container">
                 <!-- 显示游戏封面图片，使用 :src 绑定图片地址 -->
-                <!-- <img :src="game.cover" class="cover" /> -->
+                <img :src="game.cover" class="cover" />
                 <!-- v-if 指令，当 game.embedUrl 存在时显示嵌入的游戏 iframe -->
                 <iframe 
                     v-if="game.embedUrl"
@@ -29,7 +31,6 @@
             <p class="description">{{ game.description }}</p>
             <!-- 游戏游玩按钮，点击后跳转到游戏链接 -->
             <a :href="game.url" class="play-button">Play Now</a>
-            <!-- 推荐游戏列表 -->
             <div v-if="recommendedGames.length" class="recommended-games">
               <h2>Recommended Games</h2>
               <div class="game-list">
@@ -46,8 +47,8 @@
 <script setup>
 // 从 Vue 核心库中导入 ref 和 onMounted 函数
 import { ref, onMounted } from 'vue';
-// 从 vue-router 中导入 useRoute 函数，用于获取当前路由信息
-import { useRoute } from 'vue-router';
+// 从 vue-router 中导入 useRoute 和 useRouter 函数，用于获取当前路由信息和路由实例
+import { useRoute, useRouter } from 'vue-router';
 // 从自定义的 API 模块中导入获取游戏详情的函数
 import { getGameDetails } from '../api/games';
 import { getGames } from '../api/games'; // 引入 getGames 函数
@@ -55,6 +56,8 @@ import GameCard from '../components/GameCard.vue'; // 引入 GameCard 组件
 
 // 使用 useRoute 函数获取当前路由信息
 const route = useRoute();
+// 使用 useRouter 函数获取路由实例
+const router = useRouter();
 // 使用 ref 创建响应式变量 game，初始值为 null
 const game = ref(null);
 // 使用 ref 创建响应式变量 loading，初始值为 true，表示正在加载
@@ -120,6 +123,10 @@ onMounted(async () => {
     getRandomGames(); // 获取随机游戏
 });
 
+// 返回按钮点击事件处理函数
+const goBack = () => {
+    router.back(); // 使用 router.back() 返回到上一个页面
+};
 </script>
 
 <style scoped>
@@ -133,12 +140,27 @@ onMounted(async () => {
     /* 内边距为 30px */
     padding: 30px;
 }
+/* 返回按钮样式 */
+.back-button {
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.back-button:hover {
+    background: #0056b3;
+}
 /* 媒体容器样式 */
 .media-container {
     /* 相对定位 */
     position: relative;
     /* 上下外边距为 20px */
-    margin: 10px 0;
+    margin: 20px 0;
 }
 /* 游戏封面图片样式 */
 .cover {
@@ -157,7 +179,7 @@ onMounted(async () => {
     /* 宽度为 100% */
     width: 100%;
     /* 高度为 600px */
-    height: 500px;
+    height: 600px;
     /* 无边框 */
     border: none;
     /* 上外边距为 20px */

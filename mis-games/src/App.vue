@@ -1,10 +1,13 @@
 <template>
   <div id="app">
+    <!-- <Navbar /> -->
     <Navbar class="navbar" />   
+    
     <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in"> 
         <component :is="Component" />
-      </transition>
+      <!-- <transition name="fade" mode="out-in"> 
+        <component :is="Component" />
+      </transition> -->
     </router-view>
   </div>
 </template>
@@ -20,7 +23,7 @@ import Navbar from './components/Navbar.vue';
 }
 
 
-
+/* 全局样式 */
 #app {
   box-sizing: border-box;
   min-height: 100vh;
@@ -29,14 +32,15 @@ import Navbar from './components/Navbar.vue';
   font-family: 'Poppins', sans-serif;
 }
 
-.fade-enter-active,
+/* 渐变动画 */
+/* .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
-}
+  opacity: -1;
+} */
 
 /* 桌面端样式 */
 @media (min-width: 1024px) {

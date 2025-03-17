@@ -20,7 +20,8 @@ const handleSearch = () => {
   // 使用 router.push 跳转到主页面，并传递搜索关键词
   router.push({
     path: '/',
-    query: { search: searchQuery.value }
+    // query: { search: searchQuery.value }
+    query: { search: searchQuery.value } 
   });
 };
 </script>
