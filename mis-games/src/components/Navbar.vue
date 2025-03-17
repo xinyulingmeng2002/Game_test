@@ -10,10 +10,8 @@
         {{ item.name }}
       </router-link>
     </div>
-    <!-- <slot></slot> 搜索框插槽 -->
-    <slot>
-      <SearchBox @search="handleSearch" />
-    </slot>
+    <!-- 确保 SearchBox 在所有视图中正常工作 -->
+    <SearchBox @search="handleSearch" />
   </nav>
 </template>
 

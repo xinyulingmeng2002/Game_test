@@ -40,7 +40,7 @@ const isHovered = ref(false);
   overflow: hidden;
   text-decoration: none;
   transition: transform 0.3s ease;
-  width: 87%;
+  width: 80%;
   /* width: 150px;  */
 }
 

@@ -11,13 +11,17 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useEmitter } from '../components/useEmitter'; // 修改为正确的相对路径
+import { useRouter } from 'vue-router';
 
 const searchQuery = ref('');
-const emitter = useEmitter();
+const router = useRouter();
 
 const handleSearch = () => {
-  emitter.emit('search', searchQuery.value);
+  // 使用 router.push 跳转到主页面，并传递搜索关键词
+  router.push({
+    path: '/',
+    query: { search: searchQuery.value }
+  });
 };
 </script>
 
@@ -26,18 +30,18 @@ const handleSearch = () => {
   margin: 0 20px;
   flex: 1;
   max-width: 400px;
-  }
-  .search-box input {
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: 2px solid #555;
-    background: #333;
-    color: white;
-    transition: all 0.3s;
-  }
-  .search-box input:focus {
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 2px solid #555;
+  background: #333;
+  color: white;
+  transition: all 0.3s;
+}
+.search-box input:focus {
   border-color: #00ff88;
   box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
-  }
+}
 </style>

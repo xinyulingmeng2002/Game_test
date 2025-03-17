@@ -23,6 +23,11 @@ const categories = ref([
   { name: 'Casual', icon: new URL('../assets/icons/casual.svg', import.meta.url).href, page: 4 },
   { name: 'Hot', icon: new URL('../assets/icons/hot.svg', import.meta.url).href, page: 5 },
   { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 6 },
+  { name: 'Girl', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 7 },
+  { name: 'Sports', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 8 },
+  { name: 'Action', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 9 },
+  { name: 'Arcade', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 10 },
+  { name: 'Racing', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 11 },
   // 添加更多分类和页码
 ]);
 
@@ -63,23 +68,23 @@ const selectCategory = (category) => {
 }
 
 .icon {
-  margin-right: 11px;
+  margin-right: 10px;
 }
 
 /* 桌面端样式 */
 @media (min-width: 1024px) {
   .sidebar {
-    width: 160px;
-    height: 70%;
+    /* width: 160px; */
+    height: 100%;
     position: fixed;
     padding: 1rem;
-    margin-left: 8px;
-    margin-top: 5em;
+    /* margin-left: 8px; */
+    margin-top: 4.8rem;
     background: #535252;
   }
   .category-item {
-    padding: 12px;
-    margin-bottom: 27px;
+    padding: 6px;
+    margin-bottom: 18px;
   }
   .icon {
     width: 24px;
@@ -92,6 +97,7 @@ const selectCategory = (category) => {
 @media (max-width: 1023px) and (min-width: 768px) {
   .sidebar {
     width: 130px;
+    height: 100%;
     padding: 1rem;
     margin-left: 7px;
     background: #4a4949;

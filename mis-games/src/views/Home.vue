@@ -77,7 +77,8 @@ const loadMore = async () => {
     } else {
       console.log('Loaded games:', res.data.rows);
       // 只保留最近加载的100个游戏数据，避免数据无限累积
-      games.value = [...games.value.slice(-65), ...res.data.rows]; // 修改为res.data.rows
+      // games.value = [...games.value.slice(-65), ...res.data.rows]; // 修改为res.data.rows
+      games.value = [...games.value, ...res.data.rows]; // 修改为res.data.rows
       currentPage.value++;
     }
   } catch (error) {
@@ -135,6 +136,17 @@ watch(() => route.query, () => {
   loadMore();
 });
 
+// 监听路由查询参数中的 search 参数
+watch(
+  () => route.query.search,
+  (newSearchQuery) => {
+    if (newSearchQuery !== searchQuery.value) {
+      searchQuery.value = newSearchQuery;
+      searchGames(newSearchQuery);
+    }
+  }
+);
+
 // 初始加载
 onMounted(loadMore);
 </script>
@@ -169,7 +181,7 @@ onMounted(loadMore);
   display: grid;
   gap: 15px;
   margin-top: 4rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr)); /* 修改: 将 min(210px, 100%) 改为 min(160px, 100%) */
+  grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr)); /* 修改: 将 min(140px, 100%) 改为 min(100px, 100%) */
 }
 
 /* 加载按钮优化 */

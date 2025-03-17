@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import GameDetail from '../views/GameDetail.vue';
 
-const routes = [{
+const routes = [
+    {
         path: '/',
+        name: 'Home',
         component: Home,
         meta: { requiresRefresh: true }, // 添加 meta 标签
         beforeEnter: (to, from, next) => {
@@ -12,34 +15,37 @@ const routes = [{
     },
     {
         path: '/game/:id',
-        component: () =>
-            import ('../views/GameDetail.vue'),
-        props: true,
+        name: 'GameDetail',
+        component: GameDetail,
         meta: { requiresRefresh: true } // 添加 meta 标签
     },
     {
         path: '/disclaimer',
         component: () =>
             import ('../views/Disclaimer.vue'),
-        props: true
+        props: true,
+        meta: { requiresRefresh: true } // 添加 meta 标签
     },
     {
         path: '/privacy-policy',
         component: () =>
             import ('../views/PrivacyPolicy.vue'),
-        props: true
+        props: true,
+        meta: { requiresRefresh: true } // 添加 meta 标签
     },
     {
         path: '/about',
         component: () =>
             import ('../views/About.vue'),
-        props: true
+        props: true,
+        meta: { requiresRefresh: true } // 添加 meta 标签
     },
     {
         path: '/sitemap',
         component: () =>
             import ('../views/Sitemap.vue'),
-        props: true
+        props: true,
+        meta: { requiresRefresh: true } // 添加 meta 标签
     }
 ];
 
@@ -61,12 +67,20 @@ const router = createRouter({
 // 添加导航守卫，用于强制刷新组件
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresRefresh) {
+        console.log('即将进入页面，强制刷新组件');
+        console.log(to);
+        console.log(from);
+        console.log(to.matched);
         // 强制刷新组件
-        to.matched.forEach(record => {
-            if (record.instances.default) {
-                record.instances.default.$forceUpdate();
-            }
-        });
+        try {
+            to.matched.forEach(record => {
+                if (record.instances.default) {
+                    record.instances.default.$forceUpdate();
+                }
+            });
+        } catch (error) {
+            console.error('强制刷新组件时出现错误:', error);
+        }
     }
     next();
 });
