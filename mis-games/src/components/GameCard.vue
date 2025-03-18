@@ -1,6 +1,6 @@
 <template>
   <router-link 
-    :to="'/game/' + game.id"  
+    :to="{ name: 'GameDetail', params: { id: game.id } }"     
     class="game-card"         
     @mouseenter="isHovered = true"  
     @mouseleave="isHovered = false" 

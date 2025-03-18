@@ -1,12 +1,7 @@
 <template>
   <div class="sidebar">
-    <div 
-      v-for="category in categories" 
-      :key="category.name"
-      class="category-item" 
-      :class="{ active: selectedCategory === category.name }" 
-      @click="selectCategory(category.name)"
-    >
+    <div v-for="category in categories" :key="category.name" class="category-item"
+      :class="{ active: selectedCategory === category.name }" @click="selectCategory(category.name)">
       <img :src="category.icon" class="icon" />
       <span>{{ category.name }}</span>
     </div>
@@ -14,35 +9,44 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { getGameCf } from '../api/games';
+const categories = ref([]);
 
-const categories = ref([
-  { name: 'Puzzle', icon: new URL('../assets/icons/puzzle.svg', import.meta.url).href, page: 1 },
-  { name: 'Kids', icon: new URL('../assets/icons/kids.svg', import.meta.url).href, page: 2 },
-  { name: 'Featured', icon: new URL('../assets/icons/featured.svg', import.meta.url).href, page: 3 },
-  { name: 'Casual', icon: new URL('../assets/icons/casual.svg', import.meta.url).href, page: 4 },
-  { name: 'Hot', icon: new URL('../assets/icons/hot.svg', import.meta.url).href, page: 5 },
-  { name: 'Adventure', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 6 },
-  { name: 'Girl', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 7 },
-  { name: 'Sports', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 8 },
-  { name: 'Action', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 9 },
-  { name: 'Arcade', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 10 },
-  { name: 'Racing', icon: new URL('../assets/icons/adventure.svg', import.meta.url).href, page: 11 },
-  // 添加更多分类和页码
-]);
+
+// onMounted 钩子函数，在组件挂载到 DOM 后执行
+onMounted(async () => {
+  console.log("onMounted")
+    try {
+        const { data} = await getGameCf();
+        const icos = 'https://admin.towsgames.site';
+        categories.value = data.data.map(item=>{
+          return {
+            ...item,
+            icon: `${icos}${item.ico}`,
+            cid: item.id
+          }
+        })
+        console.log(data.data);
+        console.log(categories.value);
+    } catch (error) {
+        console.error('Error loading game details:', error);
+    }
+});
 
 const selectedCategory = ref('');
 const emit = defineEmits(['categoryChange']);
 
 const selectCategory = (category) => {
   selectedCategory.value = category; // 更新选中分类
-  const selectedPage = categories.value.find(cat => cat.name === category)?.page || 1;
-  emit('categoryChange', category, selectedPage); // 触发分类改变事件并传递页码
+  const selectedPage = categories.value.find(cat => cat.name === category)?.cid || 1;
+  emit('categoryChange', category, selectedPage); // 触发分类改变事件并传递类别
 };
 </script>
 
 <style scoped>
 .sidebar {
+  height: 100vh;
   background: #858585;
   transition: all 0.3s ease;
 }
@@ -50,12 +54,13 @@ const selectCategory = (category) => {
 .category-item {
   display: flex;
   align-items: center;
+  /* height: 100vh; */
   cursor: pointer;
   color: #ccc;
   border-radius: 6px;
-  white-space: nowrap;  
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .category-item:hover {
@@ -82,10 +87,12 @@ const selectCategory = (category) => {
     margin-top: 4.8rem;
     background: #535252;
   }
+
   .category-item {
     padding: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 25px;
   }
+
   .icon {
     width: 24px;
     height: 24px;
@@ -98,14 +105,17 @@ const selectCategory = (category) => {
   .sidebar {
     width: 130px;
     height: 100%;
-    padding: 1rem;
+    position: fixed;
+    padding: 5rem 1rem 1rem 1rem;
     margin-left: 7px;
     background: #4a4949;
   }
+
   .category-item {
     padding: 11px;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
   }
+
   .icon {
     width: 22px;
     height: 22px;
@@ -119,14 +129,16 @@ const selectCategory = (category) => {
     height: auto;
     position: relative;
   }
+
   .sidebar-inner {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     padding: 12px;
   }
+
   .category-item {
-    flex: 1 0 45%; 
+    flex: 1 0 45%;
     max-width: 100px;
     flex-direction: column;
     text-align: left;
@@ -136,9 +148,11 @@ const selectCategory = (category) => {
   .category-item:first-child {
     margin-top: 14rem;
   }
+
   .category-item:last-child {
     margin-bottom: 0;
   }
+
   .icon {
     width: 11px;
     height: 11px;

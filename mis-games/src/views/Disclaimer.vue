@@ -17,8 +17,8 @@
       <li><strong>You</strong> means the individual accessing the Service, or the
         company, or other legal entity on behalf of which such individual is accessing or using the Service, as
         applicable.</li>
-      <li><strong>Website</strong> refers to MisGames, accessible from <a href="https://www.misgames.site/"
-          rel="external nofollow noopener" target="_blank">https://www.misgames.site/</a></li>
+      <li><strong>Website</strong> refers to MisGames, accessible from <a :href="`${window.location.origin}/`"
+        rel="external nofollow noopener" target="_blank">{{ window.location.origin }}/</a></li>
     </ul>
     <h2>Disclaimer</h2>
     <p>The information contained on the Service is for general information purposes only.</p>
@@ -82,7 +82,8 @@
 </template>
 
 <script setup>
-// 组件逻辑
+// 引入 window 对象
+const window = globalThis.window;
 </script>
 
 <style scoped>
@@ -198,7 +199,7 @@ a:hover {
   }
 
   .contents {
-    padding: 1rem 9.375rem 9.375rem;
+    padding: 3rem 9.375rem 9.375rem;
   }
 
   h1 {

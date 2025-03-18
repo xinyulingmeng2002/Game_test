@@ -63,3 +63,22 @@ export const getGameDetails = async(id) => {
         throw error;
     }
 };
+
+
+/**
+ * 获取游戏分类列表的异步函数
+ * @param {Object} params_cf - 请求的参数，默认为空对象
+ * @returns {Promise} - 返回一个 Promise，包含请求的响应结果
+ */
+export const getGameCf = async(params_cf = {}) => {
+    try {
+        const res = await axios.get(`${API_BASE}/classlist`);
+        console.log(res);
+        return res;
+    } catch (error) {
+        // 捕获请求过程中可能出现的错误
+        console.error('API Error:', error);
+        // 抛出错误，让调用者处理
+        throw error;
+    }
+}

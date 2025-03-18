@@ -1,26 +1,18 @@
 <template>
   <div class="home">
-    <div>
-      <!-- <Navbar /> -->
-      <!-- <SearchBox /> 添加搜索框组件 -->
-    </div>
+    <!-- <div> -->
+    <!-- <Navbar /> -->
+    <!-- <SearchBox /> 添加搜索框组件 -->
+    <!-- </div> -->
     <div class="main-container">
       <Sidebar @categoryChange="handleCategoryChange" />
     </div>
     <main class="content">
       <div class="game-grid">
-        <GameCard 
-          v-for="game in games" 
-          :key="game.id" 
-          :game="game" 
-        />
+        <GameCard v-for="game in games" :key="game.id" :game="game" />
       </div>
       <div class="load-more-container">
-        <button 
-          v-if="hasMore && !isLoading"
-          @click="loadMore"
-          class="load-more"
-        >
+        <button v-if="hasMore && !isLoading" @click="loadMore" class="load-more">
           Load More
         </button>
         <div v-if="isLoading" class="loading-spinner"></div>
@@ -39,10 +31,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { getGames } from '../api/games';
 import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
-// import Navbar from '../components/Navbar.vue';
-// import SearchBox from '../components/SearchBox.vue'; // 引入 SearchBox 组件
 
 const games = ref([]);
+const currentCategory = ref(1);
 const currentPage = ref(1);
 const isLoading = ref(false);
 const hasMore = ref(true);
@@ -61,15 +52,16 @@ watch(
   }
 );
 
-// 加载游戏数据
+// 加载或分类游戏数据
 const loadMore = async () => {
   if (isLoading.value || !hasMore.value) return; // 防止重复加载
   isLoading.value = true;
 
   try {
     const res = await getGames({
+      cid: currentCategory.value,
       pageNum: currentPage.value, // 修改为pageNum
-      pageSize: 35, 
+      pageSize: 35,
       category: route.query.category,  // 分类
       title: searchQuery.value // 添加搜索查询
     });
@@ -90,6 +82,7 @@ const loadMore = async () => {
   }
 };
 
+
 // 搜索游戏
 const searchGames = async (query) => {
   if (isLoading.value) return; // 防止重复加载
@@ -100,7 +93,7 @@ const searchGames = async (query) => {
   try {
     const res = await getGames({
       pageNum: currentPage.value, // 修改为pageNum
-      pageSize: 35, 
+      pageSize: 35,
       category: route.query.category,  // 分类
       title: query // 添加搜索查询
     });
@@ -120,14 +113,15 @@ const searchGames = async (query) => {
 };
 
 // 分类切换处理
-const handleCategoryChange = (category, page) => {
-  router.push({ 
+const handleCategoryChange = (category, cid) => {
+  router.push({
     path: '/',
     query: { category } // 分类参数
   });
-  currentPage.value = page; // 设置当前页码
+  currentCategory.value = cid; // 设置当前分类ID
+  currentPage.value = 1; // 重置当前页码
   games.value = []; // 清空游戏列表
-  loadMore(); // 重新加载游戏数据
+  loadMore(); // 加载对应分类数据
 };
 
 // 初始加载
@@ -145,8 +139,10 @@ onMounted(loadMore);
 .content {
   flex: 1;
   padding: 30px;
-  min-width: 0; /* 修复flex溢出问题 */
-  margin-left: calc(var(--sidebar-width) + 1rem); /* 动态计算margin-left */
+  min-width: 0;
+  /* 修复flex溢出问题 */
+  margin-left: calc(var(--sidebar-width) + 1rem);
+  /* 动态计算margin-left */
 }
 
 /* 响应式调整 */
@@ -154,9 +150,10 @@ onMounted(loadMore);
   .home {
     flex-direction: column;
   }
+
   .content {
     padding: 10px;
-    margin-left: 0; 
+    margin-left: 0;
   }
 }
 
@@ -165,7 +162,8 @@ onMounted(loadMore);
   display: grid;
   gap: 15px;
   margin-top: 4rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr)); /* 修改: 将 min(140px, 100%) 改为 min(100px, 100%) */
+  grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr));
+  /* 修改: 将 min(140px, 100%) 改为 min(100px, 100%) */
 }
 
 /* 加载按钮优化 */
@@ -186,7 +184,7 @@ onMounted(loadMore);
   opacity: 0.8;
 }
 
-/* 防止加载按钮溢出 */ 
+/* 防止加载按钮溢出 */
 .load-more-container {
   display: flex;
   justify-content: center;
@@ -222,6 +220,7 @@ onMounted(loadMore);
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -235,26 +234,39 @@ onMounted(loadMore);
 
 /* 桌面端样式 */
 @media (min-width: 1024px) {
+
   .load-more,
-  .brand-footer { 
-    margin-left: 70px; /* 与侧边栏 width: 150px 保持一致 */
+  .brand-footer {
+    margin-left: 70px;
+    /* 与侧边栏 width: 150px 保持一致 */
   }
 }
 
 /* 平板适配 */
 @media (max-width: 1023px) and (min-width: 768px) {
+  .content {
+    flex: 1;
+    padding: 30px;
+    min-width: 0;
+    /* 修复flex溢出问题 */
+    margin-left: calc(var(--sidebar-width) + 10rem);
+    /* 动态计算margin-left */
+  }
+
   .load-more,
   .brand-footer {
-    margin-left: 0px; 
+    margin-left: 0px;
   }
 }
 
 /* 移动端基础字号调整 */
 @media (max-width: 767px) {
+
   .load-more,
   .brand-footer {
     margin-left: 0;
   }
+
   html {
     font-size: 14px;
   }

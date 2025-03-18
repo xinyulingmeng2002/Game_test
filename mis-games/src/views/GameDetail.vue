@@ -21,9 +21,9 @@
             <!-- 游戏元信息容器，显示评分和玩家数量 -->
             <div class="meta">
                 <!-- 显示游戏评分 -->
-                <div class="rating">⭐ {{ game.rating || '4.5' }}</div>
+                <!-- <div class="rating">⭐ {{ game.rating || '4.5' }}</div> -->
                 <!-- 显示游戏玩家数量 -->
-                <div class="players">👥 {{ game.players || 0 }}</div>
+                <!-- <div class="players">👥 {{ game.players || 0 }}</div> -->
             </div>
             <!-- 显示游戏描述 -->
             <p class="description">{{ game.description }}</p>
@@ -33,7 +33,14 @@
             <div v-if="recommendedGames.length" class="recommended-games">
               <h2>Recommended Games</h2>
               <div class="game-list">
-                <GameCard v-for="game in recommendedGames" :key="game.id" :game="game" />
+                <GameCard 
+                  v-for="game in recommendedGames" 
+                  :key="game.id" 
+                  @click="() => $router.push({ name: 'GameDetail', params: { id: game.id } })"
+                  :game="game" 
+                />
+                <!-- :to="{ name: 'GameDetail', params: { id: game.id } }"  -->
+               
               </div>
             </div>
             
@@ -44,8 +51,8 @@
 </template>
 
 <script setup>
-// 从 Vue 核心库中导入 ref 和 onMounted 函数
-import { ref, onMounted } from 'vue';
+// 从 Vue 核心库中导入 ref, onMounted 和 watch函数
+import { ref, onMounted, watch } from 'vue';
 // 从 vue-router 中导入 useRoute 函数，用于获取当前路由信息
 import { useRoute } from 'vue-router';
 // 从自定义的 API 模块中导入获取游戏详情的函数
@@ -61,6 +68,11 @@ const game = ref(null);
 const loading = ref(true);
 // 使用 ref 创建响应式变量 recommendedGames，初始值为空数组
 const recommendedGames = ref([]);
+
+
+// defineProps({ // 定义接收的父组件传递的参数
+//   game: Object
+// });
 
 // 获取随机游戏的方法
 const getRandomGames = async () => {
@@ -106,8 +118,8 @@ onMounted(async () => {
             title: res.data.data.title,
             cover: res.data.data.cover,
             embedUrl: res.data.data.gurl, // 修改为gurl
-            rating: res.data.data.rating || '4.5', // 假设rating在数据中不存在
-            players: res.data.data.players || 0, // 假设players在数据中不存在
+            // rating: res.data.data.rating || '4.5', // 假设rating在数据中不存在
+            // players: res.data.data.players || 0, // 假设players在数据中不存在
             description: res.data.data.descr, // 修改为descr
             url: res.data.data.gurl // 添加游戏链接
         };
@@ -119,6 +131,37 @@ onMounted(async () => {
     }
     getRandomGames(); // 获取随机游戏
 });
+
+// 监听路由参数的变化
+watch(
+  () => route.params.id,
+  async (newId) => {
+    if (newId) {
+      loading.value = true;
+      try {
+        const res = await getGameDetails(newId);
+        console.log(res.data);
+        game.value = {
+          id: res.data.data.id,
+          title: res.data.data.title,
+          cover: res.data.data.cover,
+          embedUrl: res.data.data.gurl, // 修改为gurl
+          rating: res.data.data.rating || '4.5', // 假设rating在数据中不存在
+          players: res.data.data.players || 0, // 假设players在数据中不存在
+          description: res.data.data.descr, // 修改为descr
+          url: res.data.data.gurl // 添加游戏链接
+        };
+        console.log(game.value);
+      } catch (error) {
+        console.error('Error loading game details:', error);
+      } finally {
+        loading.value = false;
+      }
+      getRandomGames(); // 获取随机游戏
+    }
+  },
+  { immediate: true } // 立即执行一次
+);
 
 </script>
 

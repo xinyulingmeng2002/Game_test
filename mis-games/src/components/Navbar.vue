@@ -5,11 +5,7 @@
       <img src="https://www.misgames.site/assets/logo-e-MFXQRF.png" alt="">
     </router-link>
     <div class="nav-menu">
-      <router-link 
-        v-for="item in menuItems" 
-        :key="item.path" 
-        :to="item.path"
-      >
+      <router-link v-for="item in menuItems" :key="item.path" :to="item.path">
         {{ item.name }}
       </router-link>
     </div>
@@ -76,14 +72,17 @@ const handleSearch = debounce((keyword) => {
 
 .nav-menu {
   display: flex;
-  gap: 3rem;
+  /* gap: 3rem; */
+  align-items: center;
+  justify-content: space-between;
+  width: 45%;
 }
 
 .nav-menu a {
   color: #ccc;
   text-decoration: none;
-  font-size: 19px; 
-  transition: color 0.3s ease;  
+  font-size: 19px;
+  transition: color 0.3s ease;
 }
 
 .nav-menu a:hover {
@@ -95,11 +94,13 @@ const handleSearch = debounce((keyword) => {
   .logo {
     font-size: 20px;
   }
+
   .nav-menu {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
+
   .nav-menu a {
     font-size: 16px;
   }

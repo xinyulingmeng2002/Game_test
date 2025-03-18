@@ -66,8 +66,8 @@
           duration of a page visit).</p>
       </li>
       <li>
-        <p><strong>Website</strong> refers to MisGames, accessible from <a href="https://www.misgames.site/"
-            rel="external nofollow noopener" target="_blank">https://www.misgames.site/</a></p>
+        <p><strong>Website</strong> refers to MisGames, accessible from <a :href="`${window.location.origin}/`"
+            rel="external nofollow noopener" target="_blank">{{ window.location.origin }}/</a></p>
       </li>
       <li>
         <p><strong>You</strong> means the individual accessing or using the
@@ -296,22 +296,9 @@
 </template>
 
 <script setup>
-// 可以保留空的 script setup 标签
+// 引入 window 对象
+const window = globalThis.window;
 </script>
-
-<!-- <style scoped>
-.privacy-policy {
-  padding: 2rem;
-  margin-top: 4rem;
-}
-
-.contents {
-    display: inline-block;
-    margin-top: 6.25rem;
-    padding: 0 9.375rem 9.375rem;
-    line-height: 1.5625rem;
-}
-</style> -->
 
 <style scoped>
 .privacy-policy {
@@ -426,7 +413,7 @@ a:hover {
   }
 
   .contents {
-    padding: 1rem 9.375rem 9.375rem;
+    padding: 3rem 9.375rem 9.375rem;
   }
 
   h1 {
