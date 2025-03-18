@@ -1,6 +1,9 @@
 <template>
   <nav class="navbar">
-    <router-link to="/" class="logo">mis</router-link>
+    <!-- <router-link to="/" class="logo">mis</router-link> -->
+    <router-link to="/" class="logo">
+      <img src="https://www.misgames.site/assets/logo-e-MFXQRF.png" alt="">
+    </router-link>
     <div class="nav-menu">
       <router-link 
         v-for="item in menuItems" 
@@ -21,6 +24,7 @@
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import SearchBox from './SearchBox.vue';
+import { debounce } from 'lodash-es';
 
 const menuItems = ref([
   { name: 'Home', path: '/' },
@@ -34,20 +38,21 @@ const router = useRouter();
 const route = useRoute();
 
 // 处理搜索功能
-const handleSearch = (keyword) => {
+const handleSearch = debounce((keyword) => {
   console.log('Search keyword:', keyword);
 
   router.push({
     path: '/',
     query: { ...route.query, search: keyword }
   });
-};
+}, 500);
 </script>
 
 <style scoped>
 .navbar {
   width: 100%;
-  padding: 1.3rem 4rem;
+  /* padding: 1.3rem 4rem; */
+  padding: 1.0rem 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,11 +61,17 @@ const handleSearch = (keyword) => {
   z-index: 1000;
 }
 
-.logo {
+/* .logo {
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
   color: white;
+} */
+
+.logo img {
+  width: 100px;
+  height: 100x;
+  /* border-radius: 50%; */
 }
 
 .nav-menu {

@@ -3,7 +3,7 @@
     :to="'/game/' + game.id"  
     class="game-card"         
     @mouseenter="isHovered = true"  
-    @mouseleave="isHovered = false"
+    @mouseleave="isHovered = false" 
   >
     <div class="image-container">
       <img 
@@ -26,7 +26,7 @@
 <script setup>
 import { ref } from 'vue';
 
-defineProps({
+defineProps({ // 定义接收的父组件传递的参数
   game: Object
 });
 

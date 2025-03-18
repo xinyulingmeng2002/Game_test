@@ -3,7 +3,7 @@
     <input 
       type="text" 
       v-model="searchQuery" 
-      @input="handleSearch" 
+      @input="debouncedSearch" 
       placeholder="Search games..."
     />
   </div>
@@ -12,6 +12,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { debounce } from 'lodash-es';
 
 const searchQuery = ref('');
 const router = useRouter();
@@ -20,10 +21,11 @@ const handleSearch = () => {
   // 使用 router.push 跳转到主页面，并传递搜索关键词
   router.push({
     path: '/',
-    // query: { search: searchQuery.value }
     query: { search: searchQuery.value } 
   });
 };
+
+const debouncedSearch = debounce(handleSearch, 500);
 </script>
 
 <style scoped>

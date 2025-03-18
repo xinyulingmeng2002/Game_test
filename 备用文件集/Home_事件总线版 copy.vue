@@ -41,6 +41,7 @@ import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
 // import Navbar from '../components/Navbar.vue';
 // import SearchBox from '../components/SearchBox.vue'; // 引入 SearchBox 组件
+import { useEmitter } from '../components/useEmitter'; // 假设使用自定义的事件总线
 
 const games = ref([]);
 const currentPage = ref(1);
@@ -50,16 +51,13 @@ const route = useRoute();
 const router = useRouter();
 const searchQuery = ref('');
 
+const emitter = useEmitter();
+
 // 监听搜索事件
-watch(
-  () => route.query.search,
-  (newSearchQuery) => {
-    if (newSearchQuery !== searchQuery.value) {
-      searchQuery.value = newSearchQuery;
-      searchGames(newSearchQuery);
-    }
-  }
-);
+emitter.on('search', (query) => {  
+  searchQuery.value = query;
+  searchGames(query);
+});
 
 // 加载游戏数据
 const loadMore = async () => {
@@ -129,6 +127,25 @@ const handleCategoryChange = (category, page) => {
   games.value = []; // 清空游戏列表
   loadMore(); // 重新加载游戏数据
 };
+
+// 监听路由变化
+watch(() => route.query, () => {
+  games.value = [];
+  currentPage.value = 1;
+  hasMore.value = true;
+  loadMore();
+});
+
+// 监听路由查询参数中的 search 参数
+watch(
+  () => route.query.search,
+  (newSearchQuery) => {
+    if (newSearchQuery !== searchQuery.value) {
+      searchQuery.value = newSearchQuery;
+      searchGames(newSearchQuery);
+    }
+  }
+);
 
 // 初始加载
 onMounted(loadMore);
@@ -258,19 +275,5 @@ onMounted(loadMore);
   html {
     font-size: 14px;
   }
-}
-
-/* 防止图片溢出 */
-img {
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
-
-/* 弹性盒子改进 */
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
 }
 </style>
