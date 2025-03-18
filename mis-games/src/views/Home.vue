@@ -39,7 +39,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { getGames } from '../api/games';
 import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
-import Navbar from '../components/Navbar.vue';
+// import Navbar from '../components/Navbar.vue';
 // import SearchBox from '../components/SearchBox.vue'; // 引入 SearchBox 组件
 import { useEmitter } from '../components/useEmitter'; // 假设使用自定义的事件总线
 
