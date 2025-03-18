@@ -22,6 +22,8 @@ export const getGames = async(params = {}) => {
     // 检查缓存中是否已经存在该请求的结果
     if (cache.has(cacheKey)) {
         // 如果存在，直接从缓存中获取并返回结果
+        console.log('缓存命中', cacheKey);
+        console.log(cache.get(cacheKey));
         return cache.get(cacheKey);
     }
 
