@@ -147,7 +147,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .home {
   display: flex;
   flex-direction: row;
@@ -162,6 +162,7 @@ onMounted(() => {
   /* 修复flex溢出问题 */
   margin-left: calc(var(--sidebar-width) + 1rem);
   /* 动态计算margin-left */
+  // @include global.bg-gradient-color;
 }
 
 /* 响应式调整 */

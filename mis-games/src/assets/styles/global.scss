@@ -1,0 +1,66 @@
+//渐进色背景颜色
+@mixin bg-gradient-color($color: linear-gradient(135deg, #6e45e2, #88d3ce)) {
+  background: $color;
+}
+
+//文字中间层公共背景颜色
+@mixin bg-common-color {
+  // background-color: #535252;
+  // background-color: #ff0000;
+  // background-color: #51a82e;
+  background: linear-gradient(135deg, #48635d, #1a5199);
+  // background: #222;
+}
+
+//App 背景颜色
+@mixin bg-app-color {
+  // background-color: #535252;
+  // background-color: #ff0000;
+  // background-color: #51a82e;
+  background: linear-gradient(135deg, #6e45e2, #88d3ce);
+  // background: #121212;
+}
+
+//侧边栏背景颜色
+@mixin bg-color {
+  // background-color: #535252;
+  // background-color: #ff0000;
+  // background-color: #51a82e;
+  background: linear-gradient(135deg, #6e45e2, #88d3ce);
+  // background: linear-gradient(135deg, #4a148c, #880e4f);
+}
+
+//导航栏背景颜色
+@mixin nav-bg-color {
+  // background-color: #535252;
+  // background-color: #ff0000;
+  // background-color: #51a82e;
+  background: linear-gradient(135deg, #6e45e2, #88d3ce);
+  // background: linear-gradient(135deg, #4a148c, #880e4f);
+}
+
+//游戏卡片区域背景色
+@mixin game-card-bg-color {
+  // background-color: #535252;
+  // background-color: #ff0000;
+  // background-color: #51a82e;
+  background: linear-gradient(135deg, #6e45e2, #88d3ce);
+  // background: linear-gradient(135deg, #4a148c, #880e4f);
+}
+
+//按钮鼠标悬停颜色
+@mixin btn-hover-color {
+  // background-color: #007bff;
+  // background: #3a3a3a;
+  background:linear-gradient(135deg, #6e45e2, #88d3ce)
+}
+
+//按钮鼠标激活颜色
+@mixin btn-active-color {
+  // background-color: #007bff;
+  // background-color: #ff0000;
+  background-color: #51a82e;
+}
+
+
+

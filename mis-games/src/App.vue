@@ -16,7 +16,7 @@
 import Navbar from './components/Navbar.vue';
 </script>
 
-<style>
+<style lang="scss">
 .navbar {
   position: fixed;
   top: 0;
@@ -27,7 +27,8 @@ import Navbar from './components/Navbar.vue';
 #app {
   box-sizing: border-box;
   min-height: 100vh;
-  background: #121212;
+  /* background: #121212; */
+  @include global.bg-app-color;
   color: white;
   font-family: 'Poppins', sans-serif;
 }

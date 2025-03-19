@@ -50,7 +50,7 @@ const handleSearch = debounce((keyword) => {
 }, 500);
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .navbar {
   width: 100%;
   /* padding: 1.3rem 4rem; */
@@ -59,7 +59,8 @@ const handleSearch = debounce((keyword) => {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  background: #796c6c;
+  /* background: #796c6c; */
+  @include global.nav-bg-color;
   z-index: 1000;
 }
 

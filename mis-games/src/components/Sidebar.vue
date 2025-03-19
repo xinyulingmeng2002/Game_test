@@ -44,17 +44,15 @@ const selectCategory = (category) => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .sidebar {
   height: 100vh;
-  background: #858585;
   transition: all 0.3s ease;
 }
 
 .category-item {
   display: flex;
   align-items: center;
-  /* height: 100vh; */
   cursor: pointer;
   color: #ccc;
   border-radius: 6px;
@@ -64,11 +62,13 @@ const selectCategory = (category) => {
 }
 
 .category-item:hover {
-  background: #3a3a3a;
+  // background: #3a3a3a;
+  @include global.btn-hover-color;
 }
 
 .category-item.active {
-  background: #007bff;
+  // background: #007bff;
+  @include global.btn-active-color;
   color: white;
 }
 
@@ -79,13 +79,12 @@ const selectCategory = (category) => {
 /* 桌面端样式 */
 @media (min-width: 1024px) {
   .sidebar {
-    /* width: 160px; */
     height: 100%;
     position: fixed;
     padding: 1rem;
-    /* margin-left: 8px; */
-    margin-top: 4.8rem;
-    background: #535252;
+    margin-top: 4.7rem;
+    @include global.bg-color;
+
   }
 
   .category-item {
@@ -107,8 +106,7 @@ const selectCategory = (category) => {
     height: 100%;
     position: fixed;
     padding: 5rem 1rem 1rem 1rem;
-    margin-left: 7px;
-    background: #4a4949;
+    @include global.bg-color;
   }
 
   .category-item {
@@ -128,6 +126,7 @@ const selectCategory = (category) => {
     /* display: flex; */
     height: auto;
     position: relative;
+    @include global.bg-color;
   }
 
   .sidebar-inner {
@@ -146,7 +145,7 @@ const selectCategory = (category) => {
   }
 
   .category-item:first-child {
-    margin-top: 14rem;
+    margin-top: 12.8rem;
   }
 
   .category-item:last-child {

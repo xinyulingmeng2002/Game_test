@@ -9,7 +9,7 @@
 // 组件逻辑
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .sitemap-page {
   padding: 2rem;
   margin-top: 4rem;
@@ -24,7 +24,8 @@
   display: block;
   margin-top: 4rem;
   padding: 1rem 9.375rem 9.375rem;
-  background: #222;
+  /* background: #222; */
+  @include global.bg-common-color;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

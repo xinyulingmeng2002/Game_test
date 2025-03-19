@@ -200,7 +200,7 @@ watch(
     /* 宽度为 100% */
     width: 100%;
     /* 高度为 600px */
-    height: 500px;
+    height: 600px;
     /* 无边框 */
     border: none;
     /* 上外边距为 20px */
