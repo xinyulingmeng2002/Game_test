@@ -5,9 +5,9 @@
       <img src="https://www.misgames.site/assets/logo-e-MFXQRF.png" alt="">
     </router-link>
     <div class="nav-menu">
-      <router-link v-for="item in menuItems" :key="item.path" :to="item.path">
+      <span style="cursor: pointer;" v-for="item in menuItems" :key="item.path" @click="goPage(item)" >
         {{ item.name }}
-      </router-link>
+      </span>
     </div>
     <!-- <slot></slot> 搜索框插槽 -->
     <slot>
@@ -23,7 +23,7 @@ import SearchBox from './SearchBox.vue';
 import { debounce } from 'lodash-es';
 
 const menuItems = ref([
-  { name: 'Home', path: '/' },
+  { name: 'Home', path: '/',name:'home' },
   { name: 'Disclaimer', path: '/disclaimer' },
   { name: 'Privacy Policy', path: '/privacy-policy' },
   { name: 'Sitemap', path: '/sitemap' },
@@ -32,6 +32,12 @@ const menuItems = ref([
 ]);
 const router = useRouter();
 const route = useRoute();
+
+
+const goPage = (item) => {
+
+  router.push(item.path);
+};
 
 // 处理搜索功能
 const handleSearch = debounce((keyword) => {

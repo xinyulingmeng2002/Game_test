@@ -52,6 +52,21 @@ watch(
   }
 );
 
+
+// 监听路由变化，重置状态
+watch(
+  () => route.query.category,
+  () => {
+    currentCategory.value = '';
+    searchQuery.value = '';
+    // 重新加载所有游戏
+    games.value = [];
+    currentPage.value = 1;
+    hasMore.value = true;
+    loadMore();
+  }
+);
+
 // 加载或分类游戏数据
 const loadMore = async () => {
   if (isLoading.value || !hasMore.value) return; // 防止重复加载
@@ -121,11 +136,14 @@ const handleCategoryChange = (category, cid) => {
   currentCategory.value = cid; // 设置当前分类ID
   currentPage.value = 1; // 重置当前页码
   games.value = []; // 清空游戏列表
+  hasMore.value = true;
   loadMore(); // 加载对应分类数据
 };
 
 // 初始加载
-onMounted(loadMore);
+onMounted(() => {
+  loadMore()
+});
 </script>
 
 <style scoped>

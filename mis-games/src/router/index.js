@@ -9,7 +9,7 @@ import GameDetail from '../views/GameDetail.vue';
 const routes = [{
         path: '/',
         name: 'Home',
-        component: Home,
+        component: ()=>import ('../views/Home.vue'),
         // meta: { requiresRefresh: true }, // 添加 meta 标签
         beforeEnter: (to, from, next) => {
             console.log('即将进入首页');
