@@ -19,13 +19,16 @@
         <div v-if="!hasMore" class="no-more">No more games~</div>
       </div>
       <footer class="brand-footer">
-        www.misgames.site is brand of misgames.site
+        <a :href="`${window.location.origin}/`"
+            rel="external nofollow noopener" target="_blank">{{ window.location.origin }}/</a> is brand of misgames.site
       </footer>
     </main>
   </div>
 </template>
 
 <script setup>
+// 引入 window 对象
+const window = globalThis.window;
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getGames } from '../api/games';
