@@ -20,7 +20,7 @@
       </div>
       <footer class="brand-footer">
         <a :href="`${window.location.origin}/`"
-            rel="external nofollow noopener" target="_blank">{{ window.location.origin }}/</a> is brand of misgames.site
+            rel="external nofollow noopener" target="_blank">{{ window.location.origin }}/</a> 
       </footer>
     </main>
   </div>
