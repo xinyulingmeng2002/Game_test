@@ -2,7 +2,7 @@
   <nav class="navbar">
     <!-- <router-link to="/" class="logo">mis</router-link> -->
     <router-link to="/" class="logo">
-      <img src="https://www.misgames.site/assets/logo-e-MFXQRF.png" alt="">
+      <img src="../picture/2.png" alt="">
     </router-link>
     <div class="nav-menu">
       <span style="cursor: pointer;" v-for="item in menuItems" :key="item.path" @click="goPage(item)" class="nav-menu-item">
