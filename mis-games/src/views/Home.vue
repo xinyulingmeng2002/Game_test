@@ -33,7 +33,7 @@ import GameCard from '../components/GameCard.vue';
 import Sidebar from '../components/Sidebar.vue';
 
 const games = ref([]);
-const currentCategory = ref(1);
+const currentCategory = ref('');
 const currentPage = ref(1);
 const isLoading = ref(false);
 const hasMore = ref(true);
