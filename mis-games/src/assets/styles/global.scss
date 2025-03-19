@@ -59,9 +59,14 @@
 @mixin btn-active-color {
   // background-color: #007bff;
   // background-color: #ff0000;
-  background-color: #51a82e;
+  // background-color: #51a82e;
+  background: linear-gradient(135deg, #79b8c4, #1a5199);
 }
 
+//按钮悬停高级样式
+@mixin btn-hover-style {
+
+}
 
 
 
