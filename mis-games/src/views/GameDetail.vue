@@ -146,8 +146,8 @@ watch(
           title: res.data.data.title,
           cover: res.data.data.cover,
           embedUrl: res.data.data.gurl, // 修改为gurl
-          rating: res.data.data.rating || '4.5', // 假设rating在数据中不存在
-          players: res.data.data.players || 0, // 假设players在数据中不存在
+        //   rating: res.data.data.rating || '4.5', // 假设rating在数据中不存在
+        //   players: res.data.data.players || 0, // 假设players在数据中不存在
           description: res.data.data.descr, // 修改为descr
           url: res.data.data.gurl // 添加游戏链接
         };

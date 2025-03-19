@@ -57,6 +57,7 @@ watch(
 watch(
   () => route.query.category,
   () => {
+    if(route.query.category) return;
     currentCategory.value = '';
     searchQuery.value = '';
     // 重新加载所有游戏

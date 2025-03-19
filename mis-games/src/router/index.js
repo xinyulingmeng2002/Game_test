@@ -7,55 +7,55 @@ import About from '../views/About.vue';
 import GameDetail from '../views/GameDetail.vue';
 
 const routes = [{
-        path: '/',
-        name: 'Home',
-        component: ()=>import ('../views/Home.vue'),
-        // meta: { requiresRefresh: true }, // 添加 meta 标签
-        beforeEnter: (to, from, next) => {
-            console.log('即将进入首页');
-            next();
-        }
-    },
-    {
-        path: '/game/:id',
-        name: 'GameDetail',
-        component: () =>
-            import ('../views/GameDetail.vue'),
-        props: true,
-        meta: { requiresRefresh: true } // 添加 meta 标签
-    },
-    {
-        path: '/disclaimer',
-        name: 'Disclaimer',
-        component: () =>
-            import ('../views/Disclaimer.vue'),
-        props: true,
-        meta: { requiresRefresh: true } // 添加 meta 标签
-    },
-    {
-        path: '/privacy-policy',
-        name: 'PrivacyPolicy',
-        component: () =>
-            import ('../views/PrivacyPolicy.vue'),
-        props: true,
-        meta: { requiresRefresh: true } // 添加 meta 标签
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: () =>
-            import ('../views/About.vue'),
-        props: true,
-        meta: { requiresRefresh: true } // 添加 meta 标签
-    },
-    {
-        path: '/sitemap',
-        name: 'Sitemap',
-        component: () =>
-            import ('../views/Sitemap.vue'),
-        props: true,
-        meta: { requiresRefresh: true } // 添加 meta 标签
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
+    // meta: { requiresRefresh: true }, // 添加 meta 标签
+    beforeEnter: (to, from, next) => {
+        console.log('即将进入首页');
+        next();
     }
+},
+{
+    path: '/game/:id',
+    name: 'GameDetail',
+    component: () =>
+        import('../views/GameDetail.vue'),
+    props: true,
+    meta: { requiresRefresh: true } // 添加 meta 标签
+},
+{
+    path: '/disclaimer',
+    name: 'Disclaimer',
+    component: () =>
+        import('../views/Disclaimer.vue'),
+    props: true,
+    meta: { requiresRefresh: true } // 添加 meta 标签
+},
+{
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: () =>
+        import('../views/PrivacyPolicy.vue'),
+    props: true,
+    meta: { requiresRefresh: true } // 添加 meta 标签
+},
+{
+    path: '/about',
+    name: 'About',
+    component: () =>
+        import('../views/About.vue'),
+    props: true,
+    meta: { requiresRefresh: true } // 添加 meta 标签
+},
+{
+    path: '/sitemap',
+    name: 'Sitemap',
+    component: () =>
+        import('../views/Sitemap.vue'),
+    props: true,
+    meta: { requiresRefresh: true } // 添加 meta 标签
+}
 ];
 
 const router = createRouter({
